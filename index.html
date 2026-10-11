@@ -417,7 +417,7 @@
       <label for="debut-programme">Début du programme (lundi de la semaine 1)</label>
       <input type="date" id="debut-programme">
     </div>
-    <p class="small muted" style="margin:6px 0 0">Une séance de marche, vélo, course ou natation de 40 min ou plus coche la case « Marche » du jour correspondant. Les données restent sur ce téléphone.</p>
+    <p class="small muted" style="margin:6px 0 0">Une séance de marche, vélo, course ou natation de 15 min ou plus coche la case « Marche » du jour correspondant. Les données restent sur ce téléphone.</p>
   </section>
 
   <section class="card" id="sante-promo" hidden>
@@ -1412,7 +1412,7 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     if (n < 0 || n > 83) return null;
     return { sem: Math.floor(n / 7) + 1, j: n % 7 };
   }
-  function seanceCompte(s) { return s.cardio && s.minutes >= 40; }
+  function seanceCompte(s) { return s.cardio && s.minutes >= 15; } // 15 min : minimum de la fiche APA (15 à 30 min de cardio)
 
   function cocherDepuisSante(d) {
     var n = 0;
