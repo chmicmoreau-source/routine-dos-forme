@@ -1,5 +1,5 @@
-// Version 20261011-114121 — généré par outils/construire_appli.py
-const CACHE = 'dos-forme-20261011-114121';
+// Version 20261011-114849 — généré par outils/construire_appli.py
+const CACHE = 'dos-forme-20261011-114849';
 const FICHIERS = ['./', './index.html', './manifest.webmanifest', './icone-192.png', './icone-512.png'];
 
 self.addEventListener('install', (e) => {

@@ -323,153 +323,190 @@
   input[type="file"] { position: absolute; width: 1px; height: 1px; opacity: 0; }
   label.btn { display: inline-flex; align-items: center; }
   footer { margin-top: 24px; font-size: .82rem; color: var(--muted); text-align: center; }
+  /* Appli à onglets */
+  .page { padding: 4px 16px calc(96px + env(safe-area-inset-bottom, 0px)); }
+  .appbar {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 8;
+    background: var(--surface); border-bottom: 1px solid var(--border);
+  }
+  .appbar-in { max-width: 960px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .appbar h1 { margin: 0; font-size: 1.2rem; letter-spacing: -.01em; }
+  .appbar p { margin: 0; font-size: .82rem; color: var(--muted); }
+  .serie-chip {
+    flex: none; padding: 4px 12px; border-radius: 999px; background: var(--amber-soft); color: var(--amber);
+    font-weight: 800; font-size: .9rem; font-variant-numeric: tabular-nums;
+  }
+  .tabbar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 12;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    background: var(--surface); border-top: 1px solid var(--border);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .tabbar button {
+    border: 0; background: none; min-height: 64px; padding: 6px 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+    font-size: .75rem; font-weight: 600; color: var(--muted);
+  }
+  .tabbar .ic { display: grid; place-items: center; width: 56px; height: 30px; border-radius: 15px; transition: background .15s; }
+  .tabbar svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .tabbar button[aria-selected="true"] { color: var(--primary-strong); }
+  .tabbar button[aria-selected="true"] .ic { background: var(--primary-soft); }
+  .mini-timer { bottom: calc(64px + env(safe-area-inset-bottom, 0px)); padding-bottom: 8px; }
+
+  .jours { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; margin-top: 12px; }
+  .jour {
+    min-height: 60px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 4px 0;
+  }
+  .jour .j { font-size: .72rem; font-weight: 600; color: var(--muted); }
+  .jour .n { font-size: 1.05rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .jour .pt { width: 7px; height: 7px; border-radius: 50%; background: var(--border); }
+  .jour .pt.partiel { background: var(--amber); }
+  .jour .pt.complet { background: var(--primary); }
+  .jour.leger .j { color: var(--amber); }
+  .jour[aria-pressed="true"] { border-color: var(--primary); background: var(--primary-soft); box-shadow: inset 0 0 0 1px var(--primary); }
+
+  .coches { display: grid; gap: 8px; margin-top: 14px; }
+  .coche {
+    width: 100%; min-height: 54px; padding: 8px 14px; border-radius: 12px; border: 2px solid var(--border);
+    background: var(--surface); display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    font-weight: 700; text-align: left;
+  }
+  .coche .etat { font-size: .85rem; font-weight: 600; color: var(--muted); white-space: nowrap; }
+  .coche[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+  .coche[aria-pressed="true"] .etat { color: inherit; }
+
+  .unit { font-size: .9rem; font-weight: 600; color: var(--muted); }
+  .liste { margin: 0; padding-left: 20px; }
+  .liste li + li { margin-top: 6px; }
+  .act-row { display: grid; grid-template-columns: 7.5rem 1fr auto; align-items: center; gap: 10px; padding: 6px 0; font-size: .92rem; }
+  .act-row .barre { height: 10px; border-radius: 5px; background: var(--surface-2); overflow: hidden; }
+  .act-row .barre i { display: block; height: 100%; background: var(--primary); border-radius: 5px; }
+  .act-row .nb { font-variant-numeric: tabular-nums; color: var(--muted); font-size: .85rem; }
+  .poids-big { font-size: 2rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .poids-barre { height: 12px; border-radius: 6px; background: var(--surface-2); overflow: hidden; margin: 8px 0 4px; }
+  .poids-barre i { display: block; height: 100%; background: var(--primary); }
+  .panel > .card:first-child, .panel > .tiles:first-child { margin-top: 12px; }
+  .panel .tiles { margin-bottom: 0; }
+
   [hidden] { display: none !important; }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } html { scroll-behavior: auto !important; } }
 </style>
 </head>
 <body>
-<div class="page">
-  <header>
-    <h1>Routine Dos &amp; Forme</h1>
-    <p>12 semaines · circuits de mobilité et de renfo de ton enseignant APA · marche de 45 min</p>
-    <button class="btn btn-primary" id="btn-installer" type="button" hidden style="margin-top:10px">Installer l'appli sur ce téléphone</button>
-  </header>
+<header class="appbar">
+  <div class="appbar-in">
+    <div class="appbar-titre">
+      <h1>Dos &amp; Forme</h1>
+      <p id="appbar-sous"></p>
+    </div>
+    <span class="serie-chip" id="appbar-serie" title="Série en cours : jours complets d'affilée">0 j</span>
+  </div>
+</header>
 
+<div class="page">
+  <button class="btn btn-primary" id="btn-installer" type="button" hidden style="margin-top:12px;width:100%">Installer l'appli sur ce téléphone</button>
   <p id="storage-warning" class="card small" hidden>
     La sauvegarde automatique n'est pas disponible dans ce navigateur : le suivi sera perdu à la fermeture. Pensez à l'exporter.
   </p>
 
-  <div class="top wrap-top">
+  <!-- ===== MARCHE ===== -->
+  <section class="panel" id="panel-marche" role="tabpanel" aria-labelledby="nav-marche">
+    <div class="jours" id="jours-marche" role="group" aria-label="Choisir le jour"></div>
+    <section class="card" aria-labelledby="plan-marche-title">
+      <h2 id="plan-marche-title"></h2>
+      <ul class="plan-list" id="plan-marche"></ul>
+      <div class="coches" id="coches-marche"></div>
+    </section>
+    <div id="slot-marche">
+      <section class="card" id="timer-card" aria-labelledby="timer-title">
+        <h2 id="timer-title">Minuteur</h2>
+        <div class="timer-presets" id="timer-presets" role="group" aria-label="Choisir une séance"></div>
+        <div class="timer-face" id="timer-face">
+          <div class="timer-label" id="timer-label"></div>
+          <div class="timer-time" id="timer-time" role="timer" aria-live="off">45:00</div>
+          <span class="timer-mode" id="timer-mode"></span>
+        </div>
+        <div class="timer-progress" aria-hidden="true"><i id="timer-bar" style="width:0%"></i></div>
+        <div class="timer-controls">
+          <button class="btn" id="t-moins" type="button" aria-label="Retirer une minute">−1 min</button>
+          <button class="btn btn-primary" id="t-start" type="button">Démarrer</button>
+          <button class="btn" id="t-plus" type="button" aria-label="Ajouter une minute">+1 min</button>
+        </div>
+        <div class="timer-extra">
+          <button class="btn" id="t-reset" type="button">Réinitialiser</button>
+        </div>
+        <div class="timer-done" id="timer-done" hidden>
+          <button class="btn btn-primary" id="t-check" type="button"></button>
+        </div>
+        <p class="small muted" style="margin:12px 0 0">Bips et vibration en fin de séance. L'écran reste allumé pendant le décompte.</p>
+      </section>
+    </div>
+    <section class="card" id="sante-seances-card" aria-labelledby="seances-title" hidden>
+      <h2 id="seances-title">Séances enregistrées</h2>
+      <p class="small muted" style="margin-top:0">Depuis Santé Connect. Une séance de marche, vélo, course ou natation de 15 min ou plus coche la marche du jour.</p>
+      <ul class="seances" id="sante-seances"></ul>
+    </section>
+    <div class="card" id="sheet-marche"></div>
+  </section>
+
+  <!-- ===== EXERCICES ===== -->
+  <section class="panel" id="panel-exos" role="tabpanel" aria-labelledby="nav-exos" hidden>
+    <div class="jours" id="jours-exos" role="group" aria-label="Choisir le jour"></div>
+    <section class="card" aria-labelledby="plan-title">
+      <h2 id="plan-title"></h2>
+      <ul class="plan-list" id="plan"></ul>
+      <div class="coches" id="coches-exos"></div>
+    </section>
+    <div id="slot-exos"></div>
+    <section class="card" id="fiches" aria-labelledby="fiches-title">
+      <h2 id="fiches-title">Fiches d'exercices · <span id="fiches-phase"></span></h2>
+      <div class="tabs" role="tablist" aria-label="Type de fiche">
+        <button class="tab" role="tab" type="button" data-groupe="mob" id="tab-mob" aria-controls="fiche-corps">Mobilité</button>
+        <button class="tab" role="tab" type="button" data-groupe="renfo" id="tab-renfo" aria-controls="fiche-corps">Renfo</button>
+        <button class="tab" role="tab" type="button" data-groupe="mes" id="tab-mes" aria-controls="fiche-corps">Exos dos</button>
+      </div>
+      <div id="fiche-corps" role="tabpanel">
+        <div class="circuit-chips" id="circuit-chips" role="group" aria-label="Choisir le circuit"></div>
+        <div class="circuit-head" id="circuit-head"></div>
+        <div class="exos" id="exos"></div>
+      </div>
+      <p class="credit" id="credit">Photos et circuits : fiches de Mikaël Durand, enseignant en activités physiques adaptées. Touchez une photo pour l'agrandir.</p>
+    </section>
+    <div class="card" id="sheet-perinee"></div>
+  </section>
+
+  <!-- ===== OBJECTIFS ===== -->
+  <section class="panel" id="panel-obj" role="tabpanel" aria-labelledby="nav-obj" hidden>
     <section class="card" aria-labelledby="phase-title">
       <h2 id="phase-title" class="eyebrow">Phase en cours</h2>
       <p class="phase-name" id="phase-name"></p>
       <p class="phase-meta" id="phase-meta"></p>
       <p style="margin:0"><span class="pill" id="phase-goal"></span></p>
     </section>
-    <section class="card" aria-labelledby="streak-title">
-      <h2 id="streak-title" class="eyebrow">Série en cours</h2>
-      <div class="streak"><span class="streak-num" id="streak-num">0</span><span id="streak-unit">jour</span></div>
-      <div class="stats">
-        <div>Record : <strong id="streak-best">0</strong></div>
-        <div>Jours complets : <strong id="days-done">0</strong> / 84</div>
+    <section class="card" aria-labelledby="weeks-title">
+      <h2 id="weeks-title">Semaine</h2>
+      <div class="weeks" id="weeks" role="group" aria-label="Choisir la semaine"></div>
+      <div class="weeks-legend">
+        <span>S1-3 Reprise</span><span>S4-6 Construction</span><span>S7-9 Renforcement</span><span>S10-12 Consolidation</span>
       </div>
-      <p class="small muted" style="margin:8px 0 0">Un jour compte quand toutes ses cases actives sont cochées.</p>
     </section>
-  </div>
-
-  <section class="card" aria-labelledby="weeks-title">
-    <h2 id="weeks-title">Semaine</h2>
-    <div class="weeks" id="weeks" role="group" aria-label="Choisir la semaine"></div>
-    <div class="weeks-legend">
-      <span>S1-3 Reprise</span><span>S4-6 Construction</span><span>S7-9 Renforcement</span><span>S10-12 Consolidation</span>
-    </div>
-  </section>
-
-  <section class="card" aria-labelledby="grid-title">
-    <div class="grid-head">
-      <h2 id="grid-title">Suivi de la semaine 1</h2>
-      <span class="pct" id="week-pct">0 %</span>
-    </div>
-    <div class="progress" aria-hidden="true"><i id="week-bar" style="width:0%"></i></div>
-    <div class="grid" id="grid"></div>
-    <p class="grid-note small muted">Touchez un jour (Lun, Mar…) pour afficher son programme. Les cases grisées ne sont pas prévues ce jour-là ; lundi et samedi (en ambre) sont des jours légers.</p>
-  </section>
-
-  <section class="card" aria-labelledby="plan-title">
-    <h2 id="plan-title"></h2>
-    <ul class="plan-list" id="plan"></ul>
-  </section>
-
-  <section class="card" id="timer-card" aria-labelledby="timer-title">
-    <h2 id="timer-title">Minuteur</h2>
-    <div class="timer-presets" id="timer-presets" role="group" aria-label="Choisir une séance"></div>
-    <div class="timer-face" id="timer-face">
-      <div class="timer-label" id="timer-label"></div>
-      <div class="timer-time" id="timer-time" role="timer" aria-live="off">45:00</div>
-      <span class="timer-mode" id="timer-mode"></span>
-    </div>
-    <div class="timer-progress" aria-hidden="true"><i id="timer-bar" style="width:0%"></i></div>
-    <div class="timer-controls">
-      <button class="btn" id="t-moins" type="button" aria-label="Retirer une minute">−1 min</button>
-      <button class="btn btn-primary" id="t-start" type="button">Démarrer</button>
-      <button class="btn" id="t-plus" type="button" aria-label="Ajouter une minute">+1 min</button>
-    </div>
-    <div class="timer-extra">
-      <button class="btn" id="t-reset" type="button">Réinitialiser</button>
-    </div>
-    <div class="timer-done" id="timer-done" hidden>
-      <button class="btn btn-primary" id="t-check" type="button"></button>
-    </div>
-    <p class="small muted" style="margin:12px 0 0">Bips et vibration en fin de séance. L'écran reste allumé pendant le décompte quand le téléphone le permet.</p>
-  </section>
-
-  <section class="card" id="sante" aria-labelledby="sante-title" hidden>
-    <div class="grid-head">
-      <h2 id="sante-title">Santé</h2>
-      <button class="btn btn-primary" id="sante-btn" type="button">Actualiser</button>
-    </div>
-    <p class="small muted" id="sante-statut" style="margin:0">Lecture de Santé Connect…</p>
-    <div class="tiles" id="sante-tiles"></div>
-    <figure class="pas-chart" id="sante-pas" style="margin-inline:0"></figure>
-    <h3>Séances enregistrées</h3>
-    <ul class="seances" id="sante-seances"></ul>
-    <div class="debut-row">
-      <label for="debut-programme">Début du programme (lundi de la semaine 1)</label>
-      <input type="date" id="debut-programme">
-    </div>
-    <p class="small muted" style="margin:6px 0 0">Une séance de marche, vélo, course ou natation de 15 min ou plus coche la case « Marche » du jour correspondant. Les données restent sur ce téléphone.</p>
-  </section>
-
-  <section class="card" id="sante-promo" hidden>
-    <h2>Données santé du téléphone</h2>
-    <p class="small muted" style="margin-top:0">Pour lire tes pas, séances, poids et fréquence cardiaque depuis Santé Connect, installe l'appli Android Routine Dos &amp; Forme.</p>
-    <a class="btn btn-primary" style="display:inline-flex;align-items:center;text-decoration:none" href="https://chmicmoreau-source.github.io/routine-dos-forme/routine-dos-forme.apk">Télécharger l'appli Android</a>
-  </section>
-
-  <section class="card" id="fiches" aria-labelledby="fiches-title" style="margin-top:24px">
-    <h2 id="fiches-title">Fiches d'exercices · <span id="fiches-phase"></span></h2>
-    <div class="tabs" role="tablist" aria-label="Type de fiche">
-      <button class="tab" role="tab" type="button" data-groupe="mob" id="tab-mob" aria-controls="fiche-corps">Mobilité</button>
-      <button class="tab" role="tab" type="button" data-groupe="renfo" id="tab-renfo" aria-controls="fiche-corps">Renfo</button>
-      <button class="tab" role="tab" type="button" data-groupe="mes" id="tab-mes" aria-controls="fiche-corps">Exos dos</button>
-    </div>
-    <div id="fiche-corps" role="tabpanel">
-      <div class="circuit-chips" id="circuit-chips" role="group" aria-label="Choisir le circuit"></div>
-      <div class="circuit-head" id="circuit-head"></div>
-      <div class="exos" id="exos"></div>
-    </div>
-    <p class="credit" id="credit">Photos et circuits : fiches de Mikaël Durand, enseignant en activités physiques adaptées. Touchez une photo pour l'agrandir.</p>
-  </section>
-
-  <div class="sheets">
-    <div class="card" id="sheet-perinee"></div>
-    <div class="card" id="sheet-marche"></div>
-  </div>
-
-  <section class="card alert" aria-labelledby="alert-title" style="margin-top:24px">
-    <h2 id="alert-title">Signaux d'alerte : arrêter et consulter</h2>
-    <ul>
-      <li>Douleur qui descend sous le genou, fourmillements, perte de force</li>
-      <li>Douleur nocturne qui ne passe pas au repos, fièvre</li>
-      <li>Essoufflement anormal, douleur thoracique, malaise</li>
-      <li>Douleur au périnée ou au bassin pendant les exercices</li>
-    </ul>
-  </section>
-
-  <div class="boxes wrap-top">
-    <section class="card" aria-labelledby="tips-title">
-      <h2 id="tips-title">Conseils au quotidien</h2>
-      <ul>
-        <li><strong>Sensations :</strong> une séance est validée s'il n'y a pas de douleur anormale jusqu'à 24 h après. Sinon, revenir au niveau précédent.</li>
-        <li><strong>Porter :</strong> genoux pliés, charge collée au corps, tourner avec les pieds (pas avec le dos).</li>
-        <li><strong>Voiture :</strong> serviette roulée au creux des reins, pause marche toutes les 1 h 30 à 2 h.</li>
-        <li><strong>Lever :</strong> pas de flexion brusque dans la première heure.</li>
-        <li><strong>Alimentation :</strong> moins de sucre et d'alcool, objectif −0,5 kg par semaine.</li>
-      </ul>
+    <section class="card" aria-labelledby="grid-title">
+      <div class="grid-head">
+        <h2 id="grid-title">Suivi de la semaine 1</h2>
+        <span class="pct" id="week-pct">0 %</span>
+      </div>
+      <div class="progress" aria-hidden="true"><i id="week-bar" style="width:0%"></i></div>
+      <div class="grid" id="grid"></div>
+      <p class="grid-note small muted">Touchez un jour (Lun, Mar…) pour le choisir dans Marche et Exercices. Lundi et samedi (en ambre) sont des jours légers.</p>
+    </section>
+    <section class="card" aria-labelledby="poids-title">
+      <h2 id="poids-title">Objectif poids</h2>
+      <div id="obj-poids"></div>
     </section>
     <section class="card" aria-labelledby="day15-title">
       <h2 id="day15-title">La semaine type</h2>
-      <ul>
+      <ul class="liste">
         <li><strong>Tous les jours</strong> : un circuit de mobilité (1 tour = 6 min, 2 tours = 12 min), en alternant les 4.</li>
         <li><strong>Mardi et jeudi</strong> : échauffement (2 min) + un circuit de renfo (1 tour = 10 min, 2 tours = 20 min), puis le circuit de mobilité du jour.</li>
         <li><strong>Marche</strong> (mer, ven, dim, plus mar et jeu dès la semaine 4) : 45 min. Le dimanche, sortie plus longue.</li>
@@ -477,28 +514,78 @@
         <li><strong>Périnée</strong> : en dehors des séances (voiture, bureau), 2 × 3 min par jour.</li>
       </ul>
     </section>
-  </div>
-
-  <section class="card" aria-labelledby="data-title" style="margin-top:24px">
-    <h2 id="data-title">Mes données</h2>
-    <p class="small muted" style="margin-top:0" id="sync-info">Le suivi est enregistré dans ce navigateur. Exportez-le pour le passer sur un autre ordinateur ou téléphone.</p>
-    <div class="actions">
-      <button class="btn btn-primary" id="btn-export" type="button">Exporter (JSON)</button>
-      <label class="btn" for="file-import">Importer un fichier…<input type="file" id="file-import" accept=".json,application/json"></label>
-      <button class="btn" id="btn-clear" type="button" aria-expanded="false" aria-controls="confirm">Effacer le suivi</button>
-    </div>
-    <div class="confirm" id="confirm" hidden>
-      <p><strong>Effacer le suivi ?</strong> Cette action est définitive (exportez d'abord si besoin).</p>
-      <div class="actions">
-        <button class="btn btn-danger" id="clear-week" type="button">Effacer cette semaine</button>
-        <button class="btn btn-danger" id="clear-all" type="button">Tout effacer (12 semaines)</button>
-        <button class="btn" id="clear-cancel" type="button">Annuler</button>
-      </div>
-    </div>
-    <p class="status" id="status" role="status" aria-live="polite"></p>
+    <section class="card" aria-labelledby="tips-title">
+      <h2 id="tips-title">Conseils au quotidien</h2>
+      <ul class="liste">
+        <li><strong>Sensations :</strong> une séance est validée s'il n'y a pas de douleur anormale jusqu'à 24 h après. Sinon, revenir au niveau précédent.</li>
+        <li><strong>Porter :</strong> genoux pliés, charge collée au corps, tourner avec les pieds (pas avec le dos).</li>
+        <li><strong>Voiture :</strong> serviette roulée au creux des reins, pause marche toutes les 1 h 30 à 2 h.</li>
+        <li><strong>Lever :</strong> pas de flexion brusque dans la première heure.</li>
+        <li><strong>Alimentation :</strong> moins de sucre et d'alcool, objectif −0,5 kg par semaine.</li>
+      </ul>
+    </section>
+    <section class="card alert" aria-labelledby="alert-title">
+      <h2 id="alert-title">Signaux d'alerte : arrêter et consulter</h2>
+      <ul class="liste">
+        <li>Douleur qui descend sous le genou, fourmillements, perte de force</li>
+        <li>Douleur nocturne qui ne passe pas au repos, fièvre</li>
+        <li>Essoufflement anormal, douleur thoracique, malaise</li>
+        <li>Douleur au périnée ou au bassin pendant les exercices</li>
+      </ul>
+    </section>
   </section>
 
-  <footer>Programme indicatif de reprise. En cas de doute ou de douleur inhabituelle, demandez l'avis de votre médecin, kinésithérapeute ou enseignant APA.</footer>
+  <!-- ===== STATS ===== -->
+  <section class="panel" id="panel-stats" role="tabpanel" aria-labelledby="nav-stats" hidden>
+    <div class="tiles">
+      <div class="tile"><div class="lb">Série en cours</div><div class="vl"><span id="streak-num">0</span> <span class="unit" id="streak-unit">jour</span></div><div class="sb">jours complets d'affilée</div></div>
+      <div class="tile"><div class="lb">Record</div><div class="vl" id="streak-best">0</div><div class="sb">meilleure série</div></div>
+      <div class="tile"><div class="lb">Jours complets</div><div class="vl"><span id="days-done">0</span><span class="unit"> / 84</span></div><div class="sb">sur les 12 semaines</div></div>
+      <div class="tile"><div class="lb">Cette semaine</div><div class="vl" id="stat-semaine">0 %</div><div class="sb" id="stat-semaine-sb"></div></div>
+    </div>
+    <section class="card"><figure class="pas-chart" id="stats-semaines" style="margin:0"></figure></section>
+    <section class="card" aria-labelledby="activites-title">
+      <h2 id="activites-title">Par activité</h2>
+      <div id="stats-activites"></div>
+    </section>
+    <section class="card" id="sante" aria-labelledby="sante-title" hidden>
+      <div class="grid-head">
+        <h2 id="sante-title">Santé</h2>
+        <button class="btn btn-primary" id="sante-btn" type="button">Actualiser</button>
+      </div>
+      <p class="small muted" id="sante-statut" style="margin:0">Lecture de Santé Connect…</p>
+      <div class="tiles" id="sante-tiles"></div>
+      <figure class="pas-chart" id="sante-pas" style="margin-inline:0"></figure>
+      <div class="debut-row">
+        <label for="debut-programme">Début du programme (lundi de la semaine 1)</label>
+        <input type="date" id="debut-programme">
+      </div>
+    </section>
+    <section class="card" id="sante-promo" hidden>
+      <h2>Données santé du téléphone</h2>
+      <p class="small muted" style="margin-top:0">Pour lire tes pas, séances, poids et fréquence cardiaque depuis Santé Connect, installe l'appli Android Routine Dos &amp; Forme.</p>
+      <a class="btn btn-primary" style="display:inline-flex;align-items:center;text-decoration:none" href="https://chmicmoreau-source.github.io/routine-dos-forme/routine-dos-forme.apk">Télécharger l'appli Android</a>
+    </section>
+    <section class="card" aria-labelledby="data-title">
+      <h2 id="data-title">Mes données</h2>
+      <p class="small muted" style="margin-top:0" id="sync-info">Le suivi est enregistré dans ce navigateur. Exportez-le pour le passer sur un autre ordinateur ou téléphone.</p>
+      <div class="actions">
+        <button class="btn btn-primary" id="btn-export" type="button">Exporter (JSON)</button>
+        <label class="btn" for="file-import">Importer un fichier…<input type="file" id="file-import" accept=".json,application/json"></label>
+        <button class="btn" id="btn-clear" type="button" aria-expanded="false" aria-controls="confirm">Effacer le suivi</button>
+      </div>
+      <div class="confirm" id="confirm" hidden>
+        <p><strong>Effacer le suivi ?</strong> Cette action est définitive (exportez d'abord si besoin).</p>
+        <div class="actions">
+          <button class="btn btn-danger" id="clear-week" type="button">Effacer cette semaine</button>
+          <button class="btn btn-danger" id="clear-all" type="button">Tout effacer (12 semaines)</button>
+          <button class="btn" id="clear-cancel" type="button">Annuler</button>
+        </div>
+      </div>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </section>
+    <footer>Programme indicatif de reprise. En cas de doute ou de douleur inhabituelle, demandez l'avis de votre médecin, kinésithérapeute ou enseignant APA.</footer>
+  </section>
 </div>
 
 <div class="mini-timer" id="mini-timer" hidden>
@@ -508,6 +595,25 @@
     <button class="btn" id="mini-toggle" type="button">Pause</button>
   </div>
 </div>
+
+<nav class="tabbar" role="tablist" aria-label="Sections de l'appli">
+  <button type="button" role="tab" id="nav-marche" data-onglet="marche" aria-controls="panel-marche">
+    <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13" cy="4" r="2"/><path d="M9.5 21l2-6 2.5 2v4M8 12l2.5-4.5 3 1.5 2 3 2.5 1M10.5 7.5L9 13l3 2"/></svg></span>
+    <span>Marche</span>
+  </button>
+  <button type="button" role="tab" id="nav-exos" data-onglet="exos" aria-controls="panel-exos">
+    <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg></span>
+    <span>Exercices</span>
+  </button>
+  <button type="button" role="tab" id="nav-obj" data-onglet="obj" aria-controls="panel-obj">
+    <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></span>
+    <span>Objectifs</span>
+  </button>
+  <button type="button" role="tab" id="nav-stats" data-onglet="stats" aria-controls="panel-stats">
+    <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16M7 16.5V11M12 16.5V6M17 16.5v-8"/></svg></span>
+    <span>Stats</span>
+  </button>
+</nav>
 
 <div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-labelledby="zoom-nom">
   <div class="zoom-box">
@@ -852,14 +958,16 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     el('phase-name').textContent = p.nom;
     el('phase-meta').textContent = 'Semaines ' + p.debut + ' à ' + p.fin + ' · vous êtes en semaine ' + etat.semaine;
     el('phase-goal').textContent = 'Objectif : ' + p.objectif;
+    el('appbar-sous').textContent = p.nom + ' · semaine ' + etat.semaine;
   }
 
   function rendreSerie() {
     var s = series();
     el('streak-num').textContent = s.enCours;
-    el('streak-unit').textContent = s.enCours > 1 ? 'jours consécutifs' : 'jour';
+    el('streak-unit').textContent = s.enCours > 1 ? 'jours' : 'jour';
     el('streak-best').textContent = s.record + (s.record > 1 ? ' jours' : ' jour');
     el('days-done').textContent = s.complets;
+    el('appbar-serie').textContent = 'Série ' + s.enCours + ' j';
   }
 
   function nomMob(i) { var c = APA.mobilite[i]; return c ? c.titre : 'Circuit ' + (i + 1); }
@@ -867,9 +975,50 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     return ' <button type="button" class="link-btn" data-voir="' + groupe + '" data-idx="' + idx + '">' + (texte || 'Voir la fiche') + '</button>';
   }
 
+  // Bandeau des 7 jours (onglets Marche et Exercices) : date réelle + pastille d'avancement.
+  function rendreJours() {
+    var sem = etat.semaine, d0 = debutProgramme(), html = '';
+    for (var j = 0; j < 7; j++) {
+      var d = new Date(d0.getTime() + ((sem - 1) * 7 + j) * 86400000);
+      var e = etatJour((sem - 1) * 7 + j);
+      html += '<button type="button" class="jour' + (LEGERS.indexOf(j) >= 0 ? ' leger' : '') + '" data-jour="' + j + '" aria-pressed="' + (j === jourChoisi) + '" aria-label="' + JOURS[j] + ' ' + d.getDate() + (e.complet ? ', complet' : e.entame ? ', commencé' : '') + '">' +
+        '<span class="j">' + JOURS_COURTS[j] + '</span><span class="n">' + d.getDate() + '</span><span class="pt' + (e.complet ? ' complet' : e.entame ? ' partiel' : '') + '"></span></button>';
+    }
+    el('jours-marche').innerHTML = html;
+    el('jours-exos').innerHTML = html;
+  }
+
+  // Grands boutons « fait » du jour choisi.
+  function rendreCoches() {
+    var sem = etat.semaine, j = jourChoisi;
+    function bouton(act, nom) {
+      if (!estActif(act, sem, j)) return '';
+      var c = coche(sem, act, j);
+      return '<button type="button" class="coche" data-act="' + act + '" aria-pressed="' + c + '"><span>' + nom + '</span><span class="etat">' + (c ? '✓ Fait' : 'À faire') + '</span></button>';
+    }
+    var m = bouton('marche', 'Marche');
+    el('coches-marche').innerHTML = m || '<p class="small muted" style="margin:0">Pas de marche prévue ce jour-là. Une sortie reste toujours bonne à prendre !</p>';
+    el('coches-exos').innerHTML = bouton('etirements', 'Mobilité') + bouton('renfo', 'Renforcement') + bouton('perinee', 'Périnée');
+  }
+
+  function rendrePlanMarche() {
+    var sem = etat.semaine, j = jourChoisi, m = phaseDe(sem).marche, items = [], tag = '';
+    if (estActif('marche', sem, j)) {
+      tag = '<span class="pill tag">' + (j === 6 ? 'Sortie longue' : 'Marche prévue') + '</span>';
+      if (j === 6) items.push('<li><strong>Sortie du dimanche · ' + esc(m.sortieLongue) + '</strong><span class="det">À son rythme, idéalement à l\'extérieur. Puis le circuit de mobilité du jour.</span></li>');
+      else if (estActif('renfo', sem, j)) items.push('<li><strong>Marche · ' + esc(m.base) + '</strong><span class="det">Jour de renfo : à un autre moment de la journée ; sinon au minimum ' + esc(m.bonusSemaine) + ' de marche active.</span></li>');
+      else items.push('<li><strong>Marche · ' + esc(m.base) + '</strong><span class="det">' + esc(m.conseil) + ' Au retour : le circuit de mobilité du jour.</span></li>');
+    } else {
+      tag = '<span class="pill tag tag-amber">Repos marche</span>';
+      items.push('<li class="rest"><strong>Pas de séance prévue</strong><span class="det">' + (LEGERS.indexOf(j) >= 0 ? 'Jour léger : mobilité seulement.' : 'Jour de renfo.') + ' Les pas du quotidien comptent quand même.</span></li>');
+    }
+    el('plan-marche-title').innerHTML = esc(JOURS[j]) + ' · semaine ' + sem + tag;
+    el('plan-marche').innerHTML = items.join('');
+  }
+
   function rendrePlan() {
     var sem = etat.semaine, j = jourChoisi, p = phaseDe(sem), m = p.marche, items = [];
-    var renfo = estActif('renfo', sem, j), marche = estActif('marche', sem, j);
+    var renfo = estActif('renfo', sem, j), marche = false;
     var mob = mobDuJour(sem, j), tag = '';
     var itemMob = function (titre, extra, classe) {
       return '<li' + (classe ? ' class="' + classe + '"' : '') + '><strong>' + titre + ' · ' + esc(nomMob(mob)) + '</strong>' + voir('mob', mob) +
@@ -887,18 +1036,94 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
         '<span class="det">' + esc(p.apa.renfo) + ', ' + esc(p.apa.reps) + '. Pour varier : mon circuit dos de la phase.</span>' + voir('mes', 'renfo', 'Voir le circuit dos') + '</li>');
       items.push(itemMob('3. Mobilité', p.apa.mob + ' pour finir la séance.'));
       if (marche) items.push('<li class="extra"><strong>Marche · ' + esc(m.base) + '</strong><span class="det">À un autre moment de la journée ; sinon au minimum ' + esc(m.bonusSemaine) + ' de marche active.</span></li>');
-    } else if (marche) {
-      tag = '<span class="pill tag">Jour de marche</span>';
-      if (j === 6) items.push('<li><strong>Sortie du dimanche · ' + esc(m.sortieLongue) + '</strong><span class="det">À son rythme, idéalement à l\'extérieur.</span></li>');
-      else items.push('<li><strong>Marche · ' + esc(m.base) + '</strong><span class="det">' + esc(m.conseil) + '</span></li>');
-      items.push(itemMob('Au retour · mobilité', p.apa.mob + '.'));
     } else {
-      items.push(itemMob('Mobilité', p.apa.mob + '.'));
+      tag = '<span class="pill tag">Mobilité</span>';
+      items.push(itemMob('Mobilité', p.apa.mob + (estActif('marche', sem, j) ? ', au retour de la marche.' : '.')));
     }
     items.push('<li class="extra"><strong>Périnée · 2 × 3 min</strong> <span class="muted small">(voiture, bureau)</span><ul>' +
       p.perinee.map(function (e) { return '<li>' + esc(e.nom) + ' · ' + esc(e.dose) + '</li>'; }).join('') + '</ul></li>');
-    el('plan-title').innerHTML = 'Programme du ' + esc(JOURS[j].toLowerCase()) + ' · semaine ' + sem + tag;
+    el('plan-title').innerHTML = esc(JOURS[j]) + ' · semaine ' + sem + tag;
     el('plan').innerHTML = items.join('');
+  }
+
+  // ---------- Stats ----------
+  function rendreStats() {
+    var sem = etat.semaine, st = statsSemaine(sem);
+    el('stat-semaine').textContent = st.pct + ' %';
+    el('stat-semaine-sb').textContent = st.faits + ' / ' + st.total + ' · semaine ' + sem;
+
+    // Avancement des 12 semaines (une série, une couleur ; semaine affichée en plus foncé)
+    var W = 336, H = 150, bas = 120, haut = 18, pas = W / 12, lb = 16, svg = '';
+    svg += '<line class="axe" x1="0" x2="' + W + '" y1="' + bas + '" y2="' + bas + '"/>';
+    var lignes = '';
+    for (var s = 1; s <= 12; s++) {
+      var v = statsSemaine(s).pct, h = (bas - haut) * v / 100, x = (s - 1) * pas + (pas - lb) / 2;
+      if (h > 0) {
+        var r = Math.min(4, h / 2), y = bas - h;
+        svg += '<path class="bar' + (s === sem ? ' today' : '') + '" d="M' + x + ' ' + bas + ' V' + (y + r) + ' Q' + x + ' ' + y + ' ' + (x + r) + ' ' + y +
+          ' H' + (x + lb - r) + ' Q' + (x + lb) + ' ' + y + ' ' + (x + lb) + ' ' + (y + r) + ' V' + bas + ' Z"><title>Semaine ' + s + ' : ' + v + ' %</title></path>';
+      }
+      svg += '<text x="' + (x + lb / 2) + '" y="' + (bas + 14) + '" text-anchor="middle"' + (s === sem ? ' class="val"' : '') + '>S' + s + '</text>';
+      if (s === sem || (v > 0 && v === 100)) svg += '<text class="val" x="' + (x + lb / 2) + '" y="' + (bas - h - 5) + '" text-anchor="middle">' + v + '%</text>';
+      lignes += '<tr><td>Semaine ' + s + '</td><td>' + v + ' %</td></tr>';
+    }
+    el('stats-semaines').innerHTML = '<figcaption>Avancement par semaine</figcaption><svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Pourcentage de cases cochées pour chacune des 12 semaines">' + svg + '</svg>' +
+      '<details><summary class="small muted">Voir les chiffres</summary><table><tbody>' + lignes + '</tbody></table></details>';
+
+    // Séances faites / prévues par activité, sur tout le programme
+    el('stats-activites').innerHTML = ACTIVITES.map(function (a) {
+      var faits = 0, prevus = 0;
+      for (var s = 1; s <= 12; s++) for (var j = 0; j < 7; j++) if (estActif(a.id, s, j)) { prevus++; if (coche(s, a.id, j)) faits++; }
+      var pct = prevus ? Math.round(faits * 100 / prevus) : 0;
+      return '<div class="act-row"><span>' + a.nom + '</span><span class="barre" role="img" aria-label="' + pct + ' %"><i style="width:' + pct + '%"></i></span><span class="nb">' + faits + ' / ' + prevus + '</span></div>';
+    }).join('') + '<p class="small muted" style="margin:6px 0 0">Séances faites sur les séances prévues des 12 semaines.</p>';
+  }
+
+  // ---------- Objectif poids : −0,5 kg par semaine sur 12 semaines ----------
+  function rendreObjPoids() {
+    var poids = (sante && sante.poids ? sante.poids.slice() : []).sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+    var d0 = debutProgramme();
+    var depart = 100, source = 'profil de départ';
+    for (var i = 0; i < poids.length; i++) { if (jourDe(poids[i].date) >= new Date(d0.getTime() - 7 * 86400000)) { depart = poids[i].kg; source = 'pesée du ' + dateCourte(jourDe(poids[i].date)); break; } }
+    var cible = depart - 6;
+    var html;
+    if (poids.length) {
+      var actuel = poids[poids.length - 1].kg, perdu = depart - actuel;
+      var semaines = Math.max(0, Math.min(12, Math.floor((new Date() - d0) / 604800000) + 1));
+      var attendu = 0.5 * semaines, pct = Math.max(0, Math.min(100, perdu * 100 / 6));
+      html = '<div class="poids-big">' + nombre(actuel, 1) + ' kg</div>' +
+        '<div class="small muted">Départ ' + nombre(depart, 1) + ' kg (' + source + ') · objectif ' + nombre(cible, 1) + ' kg en 12 semaines</div>' +
+        '<div class="poids-barre" role="img" aria-label="' + Math.round(pct) + ' % de l\'objectif"><i style="width:' + pct + '%"></i></div>' +
+        '<div class="small">' + (perdu >= 0 ? '−' : '+') + nombre(Math.abs(perdu), 1) + ' kg depuis le départ · attendu à ce stade : −' + nombre(attendu, 1) + ' kg</div>';
+    } else {
+      html = '<p style="margin:0">Objectif : <strong>−0,5 kg par semaine</strong>, soit environ <strong>−6 kg</strong> sur les 12 semaines (de 100 kg à 94 kg).</p>' +
+        '<p class="small muted" style="margin:6px 0 0">' + (window.AppAndroid ? 'Aucune pesée dans Santé Connect pour l\'instant : une balance connectée ou une saisie dans une appli santé suffit.' : 'Dans l\'appli Android, tes pesées Santé Connect s\'afficheront ici.') + '</p>';
+    }
+    el('obj-poids').innerHTML = html;
+  }
+
+  // ---------- Onglets ----------
+  var CLE_ONGLET = 'routine-dos-forme.onglet';
+  var ONGLETS = { marche: 'panel-marche', exos: 'panel-exos', obj: 'panel-obj', stats: 'panel-stats' };
+  var onglet = 'marche';
+  function changerOnglet(o, sansDefiler) {
+    if (!ONGLETS[o]) o = 'marche';
+    onglet = o;
+    Object.keys(ONGLETS).forEach(function (k) {
+      el(ONGLETS[k]).hidden = k !== o;
+      var b = el('nav-' + k);
+      b.setAttribute('aria-selected', String(k === o));
+      b.tabIndex = k === o ? 0 : -1;
+    });
+    // Le minuteur suit l'onglet : séances de marche dans Marche, d'exercices dans Exercices.
+    if (o === 'marche' || o === 'exos') {
+      var slot = el(o === 'marche' ? 'slot-marche' : 'slot-exos');
+      if (el('timer-card').parentNode !== slot) slot.appendChild(el('timer-card'));
+      rendreChrono();
+    }
+    ecrire(CLE_ONGLET, o);
+    if (!sansDefiler) window.scrollTo(0, 0);
+    majMini();
   }
 
   // ---------- Fiches illustrées ----------
@@ -990,6 +1215,7 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
   }
 
   function ouvrirFiche(groupe, idx) {
+    if (onglet !== 'exos') changerOnglet('exos', true);
     fiche.groupe = groupe;
     if (groupe === 'mob') fiche.mob = +idx;
     else if (groupe === 'renfo') fiche.renfo = +idx;
@@ -1021,17 +1247,40 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     rendreSemaines();
     rendrePhase();
     rendreGrille();
+    rendreJours();
+    rendrePlanMarche();
     rendrePlan();
+    rendreCoches();
     rendreFiches();
     rendreSerie();
+    rendreStats();
+    rendreObjPoids();
     rendreChrono();
     if (window.AppAndroid) rendreSante();
   }
 
+  // Après une case cochée/décochée : tout ce qui en dépend, sans toucher aux fiches.
+  function apresCoche() {
+    rendreGrille(); rendreSemaines(); rendreJours(); rendreCoches(); rendreSerie(); rendreStats(); afficherCocher();
+    if (window.AppAndroid) rendreSante();
+  }
+  function basculer(act, j) {
+    var k = cle(etat.semaine, act, j);
+    if (etat.suivi[k]) delete etat.suivi[k]; else etat.suivi[k] = true;
+    modifie();
+    apresCoche();
+  }
+  function choisirJour(j) {
+    jourChoisi = j;
+    fiche.mob = mobDuJour(etat.semaine, j);
+    rendreGrille(); rendreJours(); rendrePlanMarche(); rendrePlan(); rendreCoches(); rendreFiches(); afficherCocher();
+  }
+
   // ---------- Minuteur ----------
   var SEANCES = [
-    { id: 'marche', nom: 'Marche', duree: 45 * 60, act: 'marche' },
-    { id: 'fractionne', nom: 'Fractionné', duree: 45 * 60, act: 'marche', fractionne: true },
+    { id: 'marche', nom: 'Marche', duree: 45 * 60, act: 'marche', groupe: 'marche' },
+    { id: 'marche15', nom: 'Marche courte', duree: 15 * 60, act: 'marche', groupe: 'marche' },
+    { id: 'fractionne', nom: 'Fractionné', duree: 45 * 60, act: 'marche', fractionne: true, groupe: 'marche' },
     { id: 'echauffement', nom: 'Échauffement', duree: 2 * 60, act: null },
     { id: 'renfo', nom: 'Renfo 1 tour', duree: 10 * 60, act: 'renfo' },
     { id: 'renfo2', nom: 'Renfo 2 tours', duree: 20 * 60, act: 'renfo' },
@@ -1149,7 +1398,10 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
 
   function rendreChrono() {
     var p3 = phaseDe(etat.semaine).marche.fractionne;
-    el('timer-presets').innerHTML = SEANCES.filter(function (s) { return !s.fractionne || p3 || chrono.id === s.id; }).map(function (s) {
+    var groupe = onglet === 'exos' ? 'exos' : 'marche';
+    el('timer-presets').innerHTML = SEANCES.filter(function (s) {
+      return chrono.id === s.id || ((s.groupe || 'exos') === groupe && (!s.fractionne || p3));
+    }).map(function (s) {
       return '<button type="button" class="chip" data-seance="' + s.id + '" aria-pressed="' + (s.id === chrono.id) + '">' + esc(s.nom) + '<small>' + (s.duree >= 60 ? (s.duree / 60) + ' min' : s.duree + ' s') + '</small></button>';
     }).join('');
     afficherChrono(restantMs());
@@ -1259,25 +1511,37 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     var b = e.target.closest('button');
     if (!b || b.disabled) return;
     var j = +b.dataset.jour;
-    if (b.classList.contains('day-h')) {
-      jourChoisi = j;
-      fiche.mob = mobDuJour(etat.semaine, j);
-      rendreGrille();
-      rendrePlan();
-      rendreFiches();
-      afficherCocher();
-      return;
-    }
+    if (b.classList.contains('day-h')) { choisirJour(j); return; }
     var act = b.dataset.act;
-    var k = cle(etat.semaine, act, j);
-    if (etat.suivi[k]) delete etat.suivi[k]; else etat.suivi[k] = true;
-    modifie();
-    rendreGrille();
-    rendreSemaines();
-    rendreSerie();
-    afficherCocher();
+    basculer(act, j);
     var nb = el('grid').querySelector('.cell[data-act="' + act + '"][data-jour="' + j + '"]');
     if (nb) nb.focus();
+  });
+
+  ['jours-marche', 'jours-exos'].forEach(function (id) {
+    el(id).addEventListener('click', function (e) {
+      var b = e.target.closest('.jour');
+      if (b) choisirJour(+b.dataset.jour);
+    });
+  });
+  ['coches-marche', 'coches-exos'].forEach(function (id) {
+    el(id).addEventListener('click', function (e) {
+      var b = e.target.closest('.coche');
+      if (!b) return;
+      basculer(b.dataset.act, jourChoisi);
+      var nb = el(id).querySelector('.coche[data-act="' + b.dataset.act + '"]');
+      if (nb) nb.focus();
+    });
+  });
+  document.querySelector('.tabbar').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-onglet]');
+    if (b) changerOnglet(b.dataset.onglet);
+  });
+  document.querySelector('.tabbar').addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    var ordre = ['marche', 'exos', 'obj', 'stats'], i = ordre.indexOf(onglet);
+    changerOnglet(ordre[(i + (e.key === 'ArrowRight' ? 1 : 3)) % 4]);
+    el('nav-' + onglet).focus();
   });
 
   el('plan').addEventListener('click', function (e) {
@@ -1533,6 +1797,7 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
   });
   if (window.AppAndroid) {
     el('sante').hidden = false;
+    el('sante-seances-card').hidden = false;
     document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') lireSante(false); });
   } else if (/Android/i.test(navigator.userAgent)) {
     el('sante-promo').hidden = false;
@@ -1556,7 +1821,9 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
   charger();
   fiche.mob = mobDuJour(etat.semaine, jourChoisi);
   el('storage-warning').hidden = stockageOk;
+  onglet = lire(CLE_ONGLET) || 'marche';
   toutRendre();
+  changerOnglet(onglet, true);
   rendreSante();
   lireSante(true);
   if (chrono.fin) { lancerTic(); garderEcran(true); }
