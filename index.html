@@ -532,6 +532,7 @@
           <button class="btn" id="t-plus" type="button" aria-label="Ajouter une minute">+1 min</button>
         </div>
         <div class="timer-extra">
+          <button class="btn btn-primary" id="t-fin" type="button" hidden>Fin de séance</button>
           <button class="btn" id="t-reset" type="button">Réinitialiser</button>
         </div>
         <div class="timer-done" id="timer-done" hidden>
@@ -793,7 +794,10 @@
 <div class="guide" id="guide" hidden role="dialog" aria-modal="true" aria-labelledby="guide-titre">
   <div class="guide-haut">
     <div><div class="guide-titre" id="guide-titre"></div><div class="small" id="guide-etape"></div></div>
-    <button class="btn" id="guide-fermer" type="button">Fermer</button>
+    <div class="actions" style="flex-wrap:nowrap">
+      <button class="btn btn-primary" id="guide-terminer" type="button">Fin de séance</button>
+      <button class="btn" id="guide-fermer" type="button" aria-label="Fermer sans valider">✕</button>
+    </div>
   </div>
   <div class="guide-barre" aria-hidden="true"><i id="guide-avance"></i></div>
   <div class="guide-corps" id="guide-corps"></div>
@@ -1644,6 +1648,7 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
       mode.textContent = m === 'rapide' ? 'Allure rapide' : 'Allure normale';
     } else { mode.className = 'timer-mode'; mode.textContent = ''; }
     el('t-start').textContent = enCours ? 'Pause' : chrono.fini ? 'Recommencer' : (ms < chrono.duree ? 'Reprendre' : 'Démarrer');
+    el('t-fin').hidden = chrono.fini || !(enCours || ms < chrono.duree);
     el('mini-time').textContent = format(ms);
     el('mini-label').textContent = s.nom + (s.fractionne && enCours ? ' · ' + (modeFractionne(ms) === 'rapide' ? 'rapide' : 'normale') : '');
     el('mini-toggle').textContent = enCours ? 'Pause' : 'Reprendre';
@@ -1737,6 +1742,7 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
   el('t-start').addEventListener('click', demarrerPause);
   el('mini-toggle').addEventListener('click', demarrerPause);
   el('t-reset').addEventListener('click', function () { choisirSeance(chrono.id); });
+  el('t-fin').addEventListener('click', function () { if (chrono.fin || chrono.restant < chrono.duree) terminer(); });
   el('t-plus').addEventListener('click', function () { ajuster(60000); });
   el('t-moins').addEventListener('click', function () { ajuster(-60000); });
   el('t-check').addEventListener('click', function () {
@@ -2273,6 +2279,7 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     el('guide-etape').textContent = g.phase === 'fin' ? 'Terminé' : 'Exercice ' + (g.i + 1) + ' / ' + n + (e.tours > 1 ? ' · tour ' + e.tour + ' / ' + e.tours : '');
     el('guide-avance').style.width = (g.phase === 'fin' ? 100 : g.i * 100 / n) + '%';
     el('guide-bas').hidden = g.phase === 'fin';
+    el('guide-terminer').hidden = g.phase === 'fin';
     el('guide-pause').textContent = g.phase === 'reps' ? 'C\'est fait ▶' : g.pause ? 'Reprendre' : 'Pause';
     var cle = g.i + '|' + g.phase + (g.phase === 'serre' || g.phase === 'relache' ? '' : '');
     var fmt = function (s) { return s >= 60 ? Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2) : String(s); };
@@ -2294,7 +2301,7 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
       }).join('');
       var ds = entree(isoChoisi()).ds;
       html = '<div class="guide-fin"><div class="guide-nom">Séance terminée, bravo !</div>' + boutons +
-        '<div class="curseur" style="text-align:left"><label for="g-ds">Douleur après la séance <span class="val" id="g-ds-val">' + (ds != null ? ds + ' / 10' : 'non notée') + '</span></label>' +
+        '<div class="curseur" style="text-align:left"><label for="g-ds">Douleur après la séance <span class="val' + (ds == null ? ' vide' : '') + '" id="g-ds-val">' + (ds != null ? ds + ' / 10' : 'non notée') + '</span></label>' +
         '<input type="range" id="g-ds" min="0" max="10" step="1" value="' + (ds != null ? ds : 0) + '"' + (ds == null ? ' class="vide"' : '') + '></div>' +
         '<button type="button" class="btn btn-primary" id="g-fermer">Fermer</button></div>';
     } else if (g.phase === 'prep') {
@@ -2318,6 +2325,15 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     return '';
   }
   el('guide-fermer').addEventListener('click', fermerGuide);
+  // Fin de séance anticipée : on passe directement à l'écran de fin (cocher l'activité, noter la douleur).
+  el('guide-terminer').addEventListener('click', function () {
+    if (!guide || guide.phase === 'fin') return;
+    guide.i = guide.etapes.length;
+    guide.phase = 'fin';
+    guide.cle = '';
+    bips(2, 988); vibrer(200);
+    rendreGuide();
+  });
   el('guide-pause').addEventListener('click', function () {
     if (!guide) return;
     if (guide.phase === 'reps') { etapeSuivante(); return; }
@@ -2344,6 +2360,7 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
   el('guide-corps').addEventListener('input', function (e) {
     if (e.target.id !== 'g-ds') return;
     e.target.classList.remove('vide');
+    el('g-ds-val').classList.remove('vide');
     el('g-ds-val').textContent = e.target.value + ' / 10';
     majJournal(isoChoisi(), 'ds', +e.target.value);
   });
