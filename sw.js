@@ -1,5 +1,5 @@
-// Version 20261010-121210 — généré par outils/construire_appli.py
-const CACHE = 'dos-forme-20261010-121210';
+// Version 20261011-112912 — généré par outils/construire_appli.py
+const CACHE = 'dos-forme-20261011-112912';
 const FICHIERS = ['./', './index.html', './manifest.webmanifest', './icone-192.png', './icone-512.png'];
 
 self.addEventListener('install', (e) => {
@@ -14,7 +14,8 @@ self.addEventListener('activate', (e) => {
 
 self.addEventListener('fetch', (e) => {
   const req = e.request;
-  if (req.method !== 'GET' || new URL(req.url).origin !== self.location.origin) return;
+  const url = new URL(req.url);
+  if (req.method !== 'GET' || url.origin !== self.location.origin || url.pathname.endsWith('.apk')) return;
   e.respondWith(caches.match(req, { ignoreSearch: true }).then((enCache) => {
     const reseau = fetch(req).then((rep) => {
       if (rep.ok) { const copie = rep.clone(); caches.open(CACHE).then((c) => c.put(req, copie)); }

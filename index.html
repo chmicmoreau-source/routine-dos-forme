@@ -217,6 +217,29 @@
   .mini-timer .t { font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; }
   .mini-timer .l { flex: 1; min-width: 0; color: var(--muted); font-size: .9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+  /* Santé (appli Android) */
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 12px 0; }
+  .tile { border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; min-width: 0; }
+  .tile .lb { font-size: .8rem; color: var(--muted); font-weight: 600; }
+  .tile .vl { font-size: 1.4rem; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.2; }
+  .tile .sb { font-size: .8rem; color: var(--muted); }
+  .pas-chart { margin: 4px 0 12px; }
+  .pas-chart svg { width: 100%; height: auto; display: block; }
+  .pas-chart figcaption { font-size: .85rem; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+  .pas-chart .bar { fill: var(--primary); }
+  .pas-chart .bar.today { fill: var(--primary-strong); }
+  .pas-chart .axe { stroke: var(--border); stroke-width: 1; }
+  .pas-chart text { fill: var(--muted); font-size: 10px; font-family: inherit; }
+  .pas-chart text.val { fill: var(--text); font-weight: 700; }
+  .pas-chart table { width: 100%; border-collapse: collapse; font-size: .85rem; font-variant-numeric: tabular-nums; }
+  .pas-chart td, .pas-chart th { padding: 2px 6px; text-align: right; border-bottom: 1px solid var(--border); }
+  .pas-chart th:first-child, .pas-chart td:first-child { text-align: left; }
+  .seances { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 6px; }
+  .seances li { display: flex; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: .92rem; }
+  .seances .ok { color: var(--primary-strong); font-weight: 700; white-space: nowrap; }
+  .debut-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: .9rem; }
+  .debut-row input { min-height: 40px; padding: 4px 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font: inherit; }
+
   /* Fiches illustrées */
   .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 12px; overflow-x: auto; }
   .tab {
@@ -378,6 +401,29 @@
       <button class="btn btn-primary" id="t-check" type="button"></button>
     </div>
     <p class="small muted" style="margin:12px 0 0">Bips et vibration en fin de séance. L'écran reste allumé pendant le décompte quand le téléphone le permet.</p>
+  </section>
+
+  <section class="card" id="sante" aria-labelledby="sante-title" hidden>
+    <div class="grid-head">
+      <h2 id="sante-title">Santé</h2>
+      <button class="btn btn-primary" id="sante-btn" type="button">Actualiser</button>
+    </div>
+    <p class="small muted" id="sante-statut" style="margin:0">Lecture de Santé Connect…</p>
+    <div class="tiles" id="sante-tiles"></div>
+    <figure class="pas-chart" id="sante-pas" style="margin-inline:0"></figure>
+    <h3>Séances enregistrées</h3>
+    <ul class="seances" id="sante-seances"></ul>
+    <div class="debut-row">
+      <label for="debut-programme">Début du programme (lundi de la semaine 1)</label>
+      <input type="date" id="debut-programme">
+    </div>
+    <p class="small muted" style="margin:6px 0 0">Une séance de marche, vélo, course ou natation de 40 min ou plus coche la case « Marche » du jour correspondant. Les données restent sur ce téléphone.</p>
+  </section>
+
+  <section class="card" id="sante-promo" hidden>
+    <h2>Données santé du téléphone</h2>
+    <p class="small muted" style="margin-top:0">Pour lire tes pas, séances, poids et fréquence cardiaque depuis Santé Connect, installe l'appli Android Routine Dos &amp; Forme.</p>
+    <a class="btn btn-primary" style="display:inline-flex;align-items:center;text-decoration:none" href="https://chmicmoreau-source.github.io/routine-dos-forme/routine-dos-forme.apk">Télécharger l'appli Android</a>
   </section>
 
   <section class="card" id="fiches" aria-labelledby="fiches-title" style="margin-top:24px">
@@ -979,6 +1025,7 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     rendreFiches();
     rendreSerie();
     rendreChrono();
+    if (window.AppAndroid) rendreSante();
   }
 
   // ---------- Minuteur ----------
@@ -1041,9 +1088,15 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
       }
     } catch (e) { /* son indisponible */ }
   }
-  function vibrer(motif) { try { if (navigator.vibrate) navigator.vibrate(motif); } catch (e) { /* ignoré */ } }
+  function vibrer(motif) {
+    try {
+      if (window.AppAndroid) window.AppAndroid.vibrer(JSON.stringify([].concat(motif)));
+      else if (navigator.vibrate) navigator.vibrate(motif);
+    } catch (e) { /* ignoré */ }
+  }
   function garderEcran(on) {
     try {
+      if (window.AppAndroid) { window.AppAndroid.ecranAllume(!!on); return; }
       if (on && !verrou && navigator.wakeLock && document.visibilityState === 'visible') {
         navigator.wakeLock.request('screen').then(function (v) {
           verrou = v;
@@ -1294,6 +1347,7 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     var json = JSON.stringify({ application: 'Routine Dos & Forme', v: 1, exporteLe: new Date().toISOString(), semaine: etat.semaine, suivi: etat.suivi, maj: etat.maj }, null, 2);
     var nom = 'routine-dos-forme-' + new Date().toISOString().slice(0, 10) + '.json';
     var nb = Object.keys(etat.suivi).length;
+    if (window.AppAndroid) { window.AppAndroid.enregistrerFichier(nom, json); return; }
     telechargements.then(function (dl) {
       if (dl) {
         return dl.save({ filename: nom, data: json }).then(function () {
@@ -1333,6 +1387,157 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     r.readAsText(f);
   });
 
+  // ---------- Santé Connect (uniquement dans l'appli Android, via window.AppAndroid) ----------
+  var CLE_SANTE = 'routine-dos-forme.sante';
+  var CLE_DEBUT = 'routine-dos-forme.debut';
+  var sante = lire(CLE_SANTE);
+  var derniereLecture = 0;
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  function isoJour(d) { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }
+  function jourDe(iso) { return new Date(iso.slice(0, 10) + 'T00:00:00'); }
+  function nombre(n, dec) { return Number(n).toLocaleString('fr-FR', { maximumFractionDigits: dec || 0, minimumFractionDigits: dec || 0 }); }
+  var JCOURT = ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam'];
+  function dateCourte(d) { return JCOURT[d.getDay()] + ' ' + d.getDate() + '/' + pad2(d.getMonth() + 1); }
+
+  // Lundi de la semaine 1 : réglé par l'utilisateur, sinon déduit de la semaine affichée (= semaine en cours).
+  function debutProgramme() {
+    var d = lire(CLE_DEBUT);
+    if (typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d)) return jourDe(d);
+    var t = new Date(); t.setHours(0, 0, 0, 0);
+    t.setDate(t.getDate() - ((t.getDay() + 6) % 7) - (etat.semaine - 1) * 7);
+    return t;
+  }
+  function positionProgramme(iso) {
+    var n = Math.round((jourDe(iso) - debutProgramme()) / 86400000);
+    if (n < 0 || n > 83) return null;
+    return { sem: Math.floor(n / 7) + 1, j: n % 7 };
+  }
+  function seanceCompte(s) { return s.cardio && s.minutes >= 40; }
+
+  function cocherDepuisSante(d) {
+    var n = 0;
+    if (!lire(CLE_DEBUT)) ecrire(CLE_DEBUT, isoJour(debutProgramme())); // fige la date déduite dès la première lecture
+    (d.seances || []).forEach(function (s) {
+      if (!seanceCompte(s)) return;
+      var p = positionProgramme(s.debut);
+      if (p && estActif('marche', p.sem, p.j) && !coche(p.sem, 'marche', p.j)) { etat.suivi[cle(p.sem, 'marche', p.j)] = true; n++; }
+    });
+    if (n) { modifie(); toutRendre(); }
+    return n;
+  }
+
+  function tuile(lb, vl, sb) {
+    return '<div class="tile"><div class="lb">' + lb + '</div><div class="vl">' + vl + '</div><div class="sb">' + sb + '</div></div>';
+  }
+
+  function graphePas(jours) {
+    var d = jours.slice(-14);
+    if (!d.length) return '';
+    var max = Math.max.apply(null, d.map(function (x) { return x.pas || 0; }).concat([1000]));
+    var W = 320, H = 120, bas = 100, haut = 18, pas = W / 14, lb = 12;
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Pas par jour sur les 14 derniers jours">';
+    svg += '<line class="axe" x1="0" x2="' + W + '" y1="' + bas + '" y2="' + bas + '"/>';
+    d.forEach(function (x, i) {
+      var v = x.pas || 0, h = Math.max(v ? 2 : 0, (bas - haut) * v / max), xx = i * pas + (pas - lb) / 2, dt = jourDe(x.date);
+      var dernier = i === d.length - 1;
+      if (h) {
+        var r = Math.min(4, h / 2), y = bas - h;
+        svg += '<path class="bar' + (dernier ? ' today' : '') + '" d="M' + xx + ' ' + bas + ' V' + (y + r) + ' Q' + xx + ' ' + y + ' ' + (xx + r) + ' ' + y +
+          ' H' + (xx + lb - r) + ' Q' + (xx + lb) + ' ' + y + ' ' + (xx + lb) + ' ' + (y + r) + ' V' + bas + ' Z"><title>' + dateCourte(dt) + ' : ' + nombre(v) + ' pas</title></path>';
+      }
+      svg += '<text x="' + (xx + lb / 2) + '" y="' + (bas + 13) + '" text-anchor="middle">' + JCOURT[dt.getDay()].charAt(0).toUpperCase() + '</text>';
+      if (dernier || v === max) svg += '<text class="val" x="' + Math.min(W - 16, Math.max(16, xx + lb / 2)) + '" y="' + (bas - h - 4) + '" text-anchor="middle">' + nombre(v) + '</text>';
+    });
+    svg += '</svg>';
+    var table = '<details><summary class="small muted">Voir les chiffres</summary><table><thead><tr><th>Jour</th><th>Pas</th><th>Distance</th></tr></thead><tbody>' +
+      d.slice().reverse().map(function (x) { return '<tr><td>' + dateCourte(jourDe(x.date)) + '</td><td>' + nombre(x.pas || 0) + '</td><td>' + (x.distance ? nombre(x.distance / 1000, 1) + ' km' : '—') + '</td></tr>'; }).join('') +
+      '</tbody></table></details>';
+    return '<figcaption>Pas par jour · 14 derniers jours</figcaption>' + svg + table;
+  }
+
+  function rendreSante() {
+    if (!window.AppAndroid) return;
+    el('debut-programme').value = isoJour(debutProgramme());
+    if (!sante || !sante.jours) { el('sante-tiles').innerHTML = ''; el('sante-pas').innerHTML = ''; el('sante-seances').innerHTML = ''; return; }
+    var jours = sante.jours || [], j7 = jours.slice(-7), auj = jours[jours.length - 1] || {};
+    var moyPas = j7.length ? j7.reduce(function (a, x) { return a + (x.pas || 0); }, 0) / j7.length : 0;
+    var dist7 = j7.reduce(function (a, x) { return a + (x.distance || 0); }, 0);
+    var fc = j7.filter(function (x) { return x.fcMoy; });
+    var poids = (sante.poids || []).slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+    var tiles = tuile('Pas aujourd\'hui', auj.pas != null ? nombre(auj.pas) : '—', 'moyenne 7 j : ' + nombre(moyPas));
+    tiles += tuile('Distance 7 jours', dist7 ? nombre(dist7 / 1000, 1) + ' km' : '—', dist7 ? 'soit ' + nombre(dist7 / 7000, 1) + ' km/jour' : 'aucune donnée');
+    if (poids.length) {
+      var der = poids[poids.length - 1], il30 = new Date(jourDe(der.date) - 30 * 86400000), ref = null;
+      poids.forEach(function (p) { if (jourDe(p.date) <= il30) ref = p; });
+      if (!ref) ref = poids[0];
+      var delta = der.kg - ref.kg, sem = Math.max(1, (jourDe(der.date) - jourDe(ref.date)) / 604800000);
+      tiles += tuile('Poids', nombre(der.kg, 1) + ' kg', ref === der ? 'le ' + dateCourte(jourDe(der.date)) :
+        (delta <= 0 ? '−' : '+') + nombre(Math.abs(delta), 1) + ' kg en ' + nombre(sem) + ' sem. (objectif −0,5/sem.)');
+    } else tiles += tuile('Poids', '—', 'aucune pesée enregistrée');
+    if (fc.length) {
+      var moy = fc.reduce(function (a, x) { return a + x.fcMoy; }, 0) / fc.length;
+      var mn = Math.min.apply(null, fc.map(function (x) { return x.fcMin || x.fcMoy; }));
+      var mx = Math.max.apply(null, fc.map(function (x) { return x.fcMax || x.fcMoy; }));
+      tiles += tuile('Fréquence cardiaque', nombre(moy) + ' bpm', 'moyenne 7 j · ' + nombre(mn) + ' à ' + nombre(mx));
+    } else tiles += tuile('Fréquence cardiaque', '—', 'aucune mesure');
+    el('sante-tiles').innerHTML = tiles;
+    el('sante-pas').innerHTML = graphePas(jours);
+    var seances = (sante.seances || []).slice().sort(function (a, b) { return a.debut < b.debut ? 1 : -1; }).slice(0, 10);
+    el('sante-seances').innerHTML = seances.length ? seances.map(function (s) {
+      var p = positionProgramme(s.debut), fait = p && seanceCompte(s) && coche(p.sem, 'marche', p.j);
+      return '<li><span>' + dateCourte(jourDe(s.debut)) + ' · ' + esc(s.type) + ' · ' + s.minutes + ' min</span>' + (fait ? '<span class="ok">✓ marche S' + p.sem + '</span>' : '') + '</li>';
+    }).join('') : '<li class="muted">Aucune séance sur les 30 derniers jours.</li>';
+  }
+
+  function lireSante(force) {
+    var A = window.AppAndroid;
+    if (!A) return;
+    var st = A.santeStatut();
+    var btn = el('sante-btn'), info = el('sante-statut');
+    if (st === 'absent') { info.textContent = 'Santé Connect n\'est pas disponible : installe l\'appli « Santé Connect » depuis le Play Store.'; btn.hidden = true; return; }
+    if (st === 'maj') { info.textContent = 'Santé Connect doit être mis à jour depuis le Play Store.'; btn.hidden = true; return; }
+    btn.hidden = false;
+    if (A.santeAutorise() !== 'oui') { info.textContent = 'Autorise l\'accès à tes séances, pas, distance, poids et fréquence cardiaque.'; btn.textContent = 'Autoriser l\'accès'; return; }
+    btn.textContent = 'Actualiser';
+    if (!force && Date.now() - derniereLecture < 600000) return;
+    derniereLecture = Date.now();
+    info.textContent = 'Lecture de Santé Connect…';
+    A.santeLire(30);
+  }
+
+  window.santeRecue = function (txt) {
+    var d;
+    try { d = JSON.parse(txt); } catch (e) { el('sante-statut').textContent = 'Réponse illisible de Santé Connect.'; return; }
+    if (d.erreur) { el('sante-statut').textContent = 'Lecture impossible : ' + d.erreur; return; }
+    sante = d;
+    ecrire(CLE_SANTE, d);
+    var n = cocherDepuisSante(d);
+    var manque = 5 - (d.permissions || []).length;
+    el('sante-statut').textContent = 'Mis à jour à ' + new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) +
+      (n ? ' · ' + n + ' marche' + (n > 1 ? 's cochées' : ' cochée') + ' automatiquement' : '') +
+      (manque > 0 ? ' · ' + manque + ' type' + (manque > 1 ? 's' : '') + ' de donnée non autorisé' + (manque > 1 ? 's' : '') : '');
+    rendreSante();
+  };
+  window.santeAutorisations = function () { lireSante(true); };
+  window.fichierEnregistre = function (ok) { statut(ok ? 'Suivi exporté.' : 'Export annulé.', ok ? 'ok' : ''); };
+
+  el('sante-btn').addEventListener('click', function () {
+    if (!window.AppAndroid) return;
+    if (window.AppAndroid.santeAutorise() !== 'oui') window.AppAndroid.santeDemanderAcces();
+    else lireSante(true);
+  });
+  el('debut-programme').addEventListener('change', function (e) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(e.target.value)) return;
+    ecrire(CLE_DEBUT, e.target.value);
+    if (sante) { var n = cocherDepuisSante(sante); rendreSante(); if (n) statut(n + ' marche(s) cochée(s) avec la nouvelle date de début.', 'ok'); }
+  });
+  if (window.AppAndroid) {
+    el('sante').hidden = false;
+    document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') lireSante(false); });
+  } else if (/Android/i.test(navigator.userAgent)) {
+    el('sante-promo').hidden = false;
+  }
+
   // Installation en appli (Chrome Android, version hébergée)
   var invitation = null;
   window.addEventListener('beforeinstallprompt', function (e) {
@@ -1352,6 +1557,8 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
   fiche.mob = mobDuJour(etat.semaine, jourChoisi);
   el('storage-warning').hidden = stockageOk;
   toutRendre();
+  rendreSante();
+  lireSante(true);
   if (chrono.fin) { lancerTic(); garderEcran(true); }
   initSync();
 })();
