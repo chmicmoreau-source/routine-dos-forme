@@ -389,6 +389,104 @@
   .panel > .card:first-child, .panel > .tiles:first-child { margin-top: 12px; }
   .panel .tiles { margin-bottom: 0; }
 
+  /* Journal */
+  .curseur { margin: 10px 0 14px; }
+  .curseur label { display: flex; justify-content: space-between; gap: 8px; font-weight: 600; }
+  .curseur .val { font-weight: 800; color: var(--primary-strong); font-variant-numeric: tabular-nums; }
+  .curseur .val.vide { color: var(--muted); font-weight: 600; }
+  .curseur input[type="range"] { width: 100%; height: 36px; accent-color: var(--primary); margin: 4px 0 0; }
+  .curseur input.vide { opacity: .45; }
+  .echelle { display: flex; justify-content: space-between; font-size: .75rem; color: var(--muted); }
+  .mesures { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+  .mesures label { display: grid; gap: 4px; font-size: .85rem; font-weight: 600; color: var(--muted); }
+  .mesures input, .debut-row select {
+    min-height: 44px; padding: 6px 10px; border-radius: 10px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text); font: inherit; font-variant-numeric: tabular-nums; width: 100%;
+  }
+  .debut-row select { width: auto; }
+  .alerte-douleur {
+    border: 1px solid color-mix(in srgb, var(--danger) 45%, var(--border)); background: var(--danger-soft);
+    color: var(--text); border-radius: 12px; padding: 10px 12px; margin-bottom: 12px; font-size: .92rem;
+  }
+  .alerte-douleur strong { color: var(--danger); }
+  .entretien { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+  .ent-sem { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+  /* GPS */
+  .gps-chiffres { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; margin: 4px 0 10px; }
+  .gps-chiffres .lb { display: block; font-size: .78rem; color: var(--muted); font-weight: 600; }
+  .gps-chiffres .vl { display: block; font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .gps-trace svg { width: 100%; height: 120px; display: block; background: var(--surface-2); border-radius: 10px; margin-bottom: 10px; }
+  .gps-trace polyline { fill: none; stroke: var(--primary); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .gps-trace circle { fill: var(--primary-strong); }
+
+  /* Badges */
+  .badges { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+  .badge { border: 1px solid var(--border); border-radius: 12px; padding: 10px; display: grid; gap: 2px; min-width: 0; }
+  .badge .t { font-weight: 800; font-size: .92rem; }
+  .badge .d { font-size: .78rem; color: var(--muted); }
+  .badge.ok { background: var(--primary-soft); border-color: var(--primary); }
+  .badge.ok .t::before { content: "✓ "; color: var(--primary-strong); }
+  .badge:not(.ok) { opacity: .75; }
+  .bilan-lignes { display: grid; gap: 6px; margin: 4px 0 10px; }
+  .bilan-lignes div { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--border); padding: 4px 0; font-size: .92rem; }
+  .bilan-lignes strong { font-variant-numeric: tabular-nums; }
+  .conseil { border-left: 4px solid var(--primary); padding: 6px 0 6px 12px; font-weight: 600; }
+  .conseil.attention { border-color: var(--amber); }
+  .legende { display: flex; gap: 14px; flex-wrap: wrap; font-size: .8rem; color: var(--muted); margin-top: 4px; }
+  .legende i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 4px; }
+  .pas-chart .douleur { fill: none; stroke: var(--amber); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+  .pas-chart .pt-douleur { fill: var(--amber); stroke: var(--surface); stroke-width: 2; }
+  .pas-chart .seance { fill: var(--primary); }
+  .pas-chart .grille { stroke: var(--border); stroke-width: 1; stroke-dasharray: 2 3; }
+  .pas-chart .objectif { stroke: var(--text); stroke-width: 1.5; stroke-dasharray: 5 4; opacity: .55; }
+
+  /* Séance guidée (plein écran) */
+  .guide {
+    position: fixed; inset: 0; z-index: 30; background: var(--bg); display: flex; flex-direction: column;
+    padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+  }
+  .guide-haut { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 16px; background: var(--surface); border-bottom: 1px solid var(--border); }
+  .guide-titre { font-weight: 800; }
+  .guide-barre { height: 6px; background: var(--surface-2); }
+  .guide-barre i { display: block; height: 100%; width: 0; background: var(--primary); transition: width .3s; }
+  .guide-corps { flex: 1; overflow: auto; padding: 16px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+  .guide-photo { width: 100%; max-width: 520px; background: var(--photo-bg); border-radius: 16px; display: grid; place-items: center; padding: 12px; min-height: 200px; }
+  .guide-photo img, .guide-photo svg { width: 100%; max-height: 34vh; object-fit: contain; }
+  .guide-nom { font-size: 1.35rem; font-weight: 800; }
+  .guide-dose { color: var(--primary-strong); font-weight: 700; }
+  .guide-cs { color: var(--muted); font-size: .92rem; max-width: 520px; }
+  .guide-compte { font-size: clamp(3rem, 16vw, 4.6rem); font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .guide-info { font-weight: 700; padding: 2px 12px; border-radius: 999px; background: var(--amber-soft); color: var(--amber); }
+  .guide-rythme { font-size: clamp(2.6rem, 14vw, 4rem); font-weight: 900; letter-spacing: .04em; padding: 24px 0; width: 100%; max-width: 520px; border-radius: 20px; transition: background .2s, color .2s; }
+  .guide-rythme.serre { background: var(--primary); color: var(--on-primary); }
+  .guide-rythme.relache { background: var(--surface-2); color: var(--text); }
+  .guide-bas { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 8px; padding: 12px 16px; background: var(--surface); border-top: 1px solid var(--border); }
+  .guide-bas .btn { min-height: 56px; font-size: 1.1rem; }
+  .guide-fin { display: grid; gap: 10px; width: 100%; max-width: 420px; }
+
+  /* Bilan imprimable */
+  .bilan { position: fixed; inset: 0; z-index: 30; background: var(--bg); overflow: auto; padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px); }
+  .bilan-outils { position: sticky; top: 0; display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 16px; background: var(--surface); border-bottom: 1px solid var(--border); z-index: 1; }
+  .bilan-page { max-width: 760px; margin: 16px auto; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .bilan-page h1 { font-size: 1.3rem; margin: 0 0 4px; }
+  .bilan-page h2 { font-size: 1rem; margin: 18px 0 6px; }
+  .bilan-page table { width: 100%; border-collapse: collapse; font-size: .9rem; font-variant-numeric: tabular-nums; }
+  .bilan-page th, .bilan-page td { border-bottom: 1px solid var(--border); padding: 4px 6px; text-align: right; }
+  .bilan-page th:first-child, .bilan-page td:first-child { text-align: left; }
+  @media print {
+    body.bilan-ouvert > *:not(#bilan) { display: none !important; }
+    body.bilan-ouvert #bilan { position: static; overflow: visible; background: #fff; }
+    .bilan-outils { display: none !important; }
+    .bilan-page { border: 0; margin: 0; max-width: none; color: #000; background: #fff; }
+  }
+
+  .toast {
+    position: fixed; left: 16px; right: 16px; bottom: calc(76px + env(safe-area-inset-bottom, 0px)); z-index: 25;
+    max-width: 520px; margin: 0 auto; background: var(--text); color: var(--bg); border-radius: 12px;
+    padding: 12px 16px; font-weight: 600; box-shadow: 0 4px 16px rgba(0,0,0,.2);
+  }
+
   [hidden] { display: none !important; }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } html { scroll-behavior: auto !important; } }
 </style>
@@ -442,6 +540,34 @@
         <p class="small muted" style="margin:12px 0 0">Bips et vibration en fin de séance. L'écran reste allumé pendant le décompte.</p>
       </section>
     </div>
+    <section class="card" id="gps" aria-labelledby="gps-title">
+      <div class="grid-head"><h2 id="gps-title">Suivi GPS de la marche</h2><span class="pill" id="gps-etat">Prêt</span></div>
+      <div class="gps-chiffres">
+        <div><span class="lb">Durée</span><span class="vl" id="gps-duree">00:00</span></div>
+        <div><span class="lb">Distance</span><span class="vl" id="gps-km">0,00 km</span></div>
+        <div><span class="lb">Allure</span><span class="vl" id="gps-allure">—</span></div>
+      </div>
+      <div class="gps-trace" id="gps-trace" aria-hidden="true"></div>
+      <div class="actions" style="justify-content:center">
+        <button class="btn btn-primary" id="gps-start" type="button">Démarrer</button>
+        <button class="btn" id="gps-stop" type="button" hidden>Terminer</button>
+      </div>
+      <p class="small muted" id="gps-info" style="margin:10px 0 0">Garde l'appli ouverte pendant la marche (l'écran reste allumé). Une marche de 15 min ou plus coche la case du jour.</p>
+      <ul class="seances" id="gps-liste" style="margin-top:10px"></ul>
+    </section>
+    <section class="card" id="route" aria-labelledby="route-title">
+      <h2 id="route-title">Sur la route</h2>
+      <p class="small muted" style="margin-top:0">Pour les longues journées de conduite. Toujours à l'arrêt, sur une aire.</p>
+      <div class="actions">
+        <button class="btn btn-primary" type="button" data-guide="route">▶ Pause route · 3 min</button>
+        <button class="btn" type="button" data-guide="perinee">▶ Périnée guidé · 3 min</button>
+      </div>
+      <div class="debut-row" style="margin-top:12px">
+        <label for="route-intervalle">Me rappeler une pause toutes les</label>
+        <select id="route-intervalle"><option value="90">1 h 30</option><option value="105" selected>1 h 45</option><option value="120">2 h</option></select>
+      </div>
+      <button class="coche" id="route-mode" type="button" aria-pressed="false" style="margin-top:10px"><span>Mode route</span><span class="etat">Désactivé</span></button>
+    </section>
     <section class="card" id="sante-seances-card" aria-labelledby="seances-title" hidden>
       <h2 id="seances-title">Séances enregistrées</h2>
       <p class="small muted" style="margin-top:0">Depuis Santé Connect. Une séance de marche, vélo, course ou natation de 15 min ou plus coche la marche du jour.</p>
@@ -454,8 +580,10 @@
   <section class="panel" id="panel-exos" role="tabpanel" aria-labelledby="nav-exos" hidden>
     <div class="jours" id="jours-exos" role="group" aria-label="Choisir le jour"></div>
     <section class="card" aria-labelledby="plan-title">
+      <div class="alerte-douleur" id="alerte-douleur" hidden></div>
       <h2 id="plan-title"></h2>
       <ul class="plan-list" id="plan"></ul>
+      <div class="actions" id="guides-jour" style="margin-top:12px"></div>
       <div class="coches" id="coches-exos"></div>
     </section>
     <div id="slot-exos"></div>
@@ -474,10 +602,33 @@
       <p class="credit" id="credit">Photos et circuits : fiches de Mikaël Durand, enseignant en activités physiques adaptées. Touchez une photo pour l'agrandir.</p>
     </section>
     <div class="card" id="sheet-perinee"></div>
+    <div class="actions" style="margin-top:10px"><button class="btn btn-primary" type="button" data-guide="perinee">▶ Périnée guidé · 3 min</button><button class="btn" type="button" data-guide="route">▶ Pause route · 3 min</button></div>
   </section>
 
   <!-- ===== OBJECTIFS ===== -->
   <section class="panel" id="panel-obj" role="tabpanel" aria-labelledby="nav-obj" hidden>
+    <section class="card" id="journal" aria-labelledby="journal-title">
+      <h2 id="journal-title">Mon corps aujourd'hui</h2>
+      <div class="alerte-douleur" id="alerte-journal" hidden></div>
+      <div class="curseur">
+        <label for="j-dm">Douleur au réveil <span class="val" id="j-dm-val">non notée</span></label>
+        <input type="range" id="j-dm" min="0" max="10" step="1" value="0">
+        <div class="echelle"><span>0 · aucune</span><span>5</span><span>10 · maximale</span></div>
+      </div>
+      <div class="curseur">
+        <label for="j-ds">Douleur après la séance <span class="val" id="j-ds-val">non notée</span></label>
+        <input type="range" id="j-ds" min="0" max="10" step="1" value="0">
+      </div>
+      <div class="coches" style="grid-template-columns:1fr 1fr">
+        <button class="coche" type="button" id="j-sucre" aria-pressed="false"><span>Sans sucre</span><span class="etat">—</span></button>
+        <button class="coche" type="button" id="j-alcool" aria-pressed="false"><span>Sans alcool</span><span class="etat">—</span></button>
+      </div>
+      <div class="mesures">
+        <label>Poids (kg)<input type="text" id="j-poids" inputmode="decimal" autocomplete="off" placeholder="ex. 99,4"></label>
+        <label>Tour de taille (cm)<input type="text" id="j-taille" inputmode="decimal" autocomplete="off" placeholder="ex. 112"></label>
+      </div>
+      <p class="small muted" style="margin:8px 0 0">Le jour noté est celui choisi dans Marche ou Exercices. La règle de ton enseignant APA : pas de douleur anormale jusqu'à 24 h après une séance.</p>
+    </section>
     <section class="card" aria-labelledby="phase-title">
       <h2 id="phase-title" class="eyebrow">Phase en cours</h2>
       <p class="phase-name" id="phase-name"></p>
@@ -490,6 +641,7 @@
       <div class="weeks-legend">
         <span>S1-3 Reprise</span><span>S4-6 Construction</span><span>S7-9 Renforcement</span><span>S10-12 Consolidation</span>
       </div>
+      <div class="entretien" id="entretien"></div>
     </section>
     <section class="card" aria-labelledby="grid-title">
       <div class="grid-head">
@@ -503,6 +655,15 @@
     <section class="card" aria-labelledby="poids-title">
       <h2 id="poids-title">Objectif poids</h2>
       <div id="obj-poids"></div>
+    </section>
+    <section class="card" id="rappels" aria-labelledby="rappels-title" hidden>
+      <h2 id="rappels-title">Rappel quotidien</h2>
+      <p class="small muted" style="margin-top:0">Une notification chaque jour pour ne pas oublier la mobilité, le périnée et la marche.</p>
+      <div class="debut-row">
+        <label for="rappel-heure">Heure du rappel</label>
+        <input type="time" id="rappel-heure" value="18:30">
+      </div>
+      <button class="coche" id="rappel-actif" type="button" aria-pressed="false" style="margin-top:10px"><span>Rappel quotidien</span><span class="etat">Désactivé</span></button>
     </section>
     <section class="card" aria-labelledby="day15-title">
       <h2 id="day15-title">La semaine type</h2>
@@ -537,6 +698,10 @@
 
   <!-- ===== STATS ===== -->
   <section class="panel" id="panel-stats" role="tabpanel" aria-labelledby="nav-stats" hidden>
+    <section class="card" id="bilan-semaine" aria-labelledby="bilan-semaine-title">
+      <h2 id="bilan-semaine-title">Bilan de la semaine</h2>
+      <div id="bilan-semaine-corps"></div>
+    </section>
     <div class="tiles">
       <div class="tile"><div class="lb">Série en cours</div><div class="vl"><span id="streak-num">0</span> <span class="unit" id="streak-unit">jour</span></div><div class="sb">jours complets d'affilée</div></div>
       <div class="tile"><div class="lb">Record</div><div class="vl" id="streak-best">0</div><div class="sb">meilleure série</div></div>
@@ -547,6 +712,16 @@
     <section class="card" aria-labelledby="activites-title">
       <h2 id="activites-title">Par activité</h2>
       <div id="stats-activites"></div>
+    </section>
+    <section class="card"><figure class="pas-chart" id="stats-douleur" style="margin:0"></figure></section>
+    <section class="card" aria-labelledby="badges-title">
+      <h2 id="badges-title">Badges <span class="small muted" id="badges-compte"></span></h2>
+      <div class="badges" id="badges"></div>
+    </section>
+    <section class="card" aria-labelledby="bilan-title">
+      <h2 id="bilan-title">Bilan à montrer</h2>
+      <p class="small muted" style="margin-top:0">Une page qui résume tout le programme pour ton enseignant APA ou ton médecin : séances, douleur, poids, pas, sommeil.</p>
+      <button class="btn btn-primary" id="bilan-ouvrir" type="button">Ouvrir le bilan</button>
     </section>
     <section class="card" id="sante" aria-labelledby="sante-title" hidden>
       <div class="grid-head">
@@ -614,6 +789,31 @@
     <span>Stats</span>
   </button>
 </nav>
+
+<div class="guide" id="guide" hidden role="dialog" aria-modal="true" aria-labelledby="guide-titre">
+  <div class="guide-haut">
+    <div><div class="guide-titre" id="guide-titre"></div><div class="small" id="guide-etape"></div></div>
+    <button class="btn" id="guide-fermer" type="button">Fermer</button>
+  </div>
+  <div class="guide-barre" aria-hidden="true"><i id="guide-avance"></i></div>
+  <div class="guide-corps" id="guide-corps"></div>
+  <div class="guide-bas" id="guide-bas">
+    <button class="btn" id="guide-prec" type="button" aria-label="Exercice précédent">◀</button>
+    <button class="btn btn-primary" id="guide-pause" type="button">Pause</button>
+    <button class="btn" id="guide-suiv" type="button" aria-label="Exercice suivant">▶</button>
+  </div>
+</div>
+
+<div class="bilan" id="bilan" hidden role="dialog" aria-modal="true" aria-labelledby="bilan-h1">
+  <div class="bilan-outils">
+    <button class="btn btn-primary" id="bilan-imprimer" type="button">Imprimer / PDF</button>
+    <button class="btn" id="bilan-enregistrer" type="button">Enregistrer</button>
+    <button class="btn" id="bilan-fermer" type="button">Fermer</button>
+  </div>
+  <article class="bilan-page" id="bilan-page"></article>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
 <div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-labelledby="zoom-nom">
   <div class="zoom-box">
@@ -762,6 +962,12 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     }
   ];
 
+  // Après les 12 semaines : phase d'entretien, mêmes contenus que la phase 4, sans fin (jusqu'à la semaine 52).
+  var MAX_SEM = 52;
+  PHASES.push(Object.assign({}, PHASES[3], { nom: 'Phase 5 · Entretien', debut: 13, fin: MAX_SEM, objectif: 'Garder les acquis, en autonomie' }));
+  // Objectif de pas quotidien, qui monte avec les phases.
+  [6000, 7000, 8000, 9000, 9000].forEach(function (n, i) { PHASES[i].pas = n; });
+
   function phaseDe(sem) {
     for (var i = 0; i < PHASES.length; i++) if (sem >= PHASES[i].debut && sem <= PHASES[i].fin) return PHASES[i];
     return PHASES[0];
@@ -779,9 +985,11 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
   function renfoDuJour(sem, j) { return ((sem - 1) * 2 + (j === 3 ? 1 : 0)) % 4; }
 
   // ---------- État & stockage ----------
-  var etat = { semaine: 1, suivi: {}, maj: 0 };
+  // journal : { 'AAAA-MM-JJ': { dm: douleur au réveil 0-10, ds: douleur après séance, sucre: jour sans sucre, alcool: jour sans alcool, poids, taille } }
+  // marches : séances suivies au GPS { date: 'AAAA-MM-JJTHH:MM', minutes, km }
+  var etat = { semaine: 1, suivi: {}, journal: {}, marches: [], maj: 0 };
   var stockageOk = true;
-  var CLE_VALIDE = /^(1[0-2]|[1-9])-(etirements|perinee|marche|renfo)-[0-6]$/;
+  var CLE_VALIDE = /^([1-9]|[1-4]\d|5[0-2])-(etirements|perinee|marche|renfo)-[0-6]$/;
 
   function lire(cle) {
     try { var b = localStorage.getItem(cle); return b ? JSON.parse(b) : null; }
@@ -796,13 +1004,41 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     if (d && typeof d === 'object') appliquerDonnees(d);
   }
   function appliquerDonnees(d) {
-    if (d.semaine >= 1 && d.semaine <= 12) etat.semaine = d.semaine | 0;
+    if (d.semaine >= 1 && d.semaine <= MAX_SEM) etat.semaine = d.semaine | 0;
     etat.suivi = nettoyer(d.suivi);
+    etat.journal = nettoyerJournal(d.journal);
+    etat.marches = nettoyerMarches(d.marches);
     etat.maj = typeof d.maj === 'number' ? d.maj : 0;
   }
+  function donnees() {
+    return { v: 2, semaine: etat.semaine, suivi: etat.suivi, journal: etat.journal, marches: etat.marches, maj: etat.maj };
+  }
   function sauverLocal() {
-    ecrire(CLE, { v: 1, semaine: etat.semaine, suivi: etat.suivi, maj: etat.maj });
+    ecrire(CLE, donnees());
     el('storage-warning').hidden = stockageOk || sync.actif;
+  }
+  function nombreOu(v, min, max) { return typeof v === 'number' && isFinite(v) && v >= min && v <= max ? v : undefined; }
+  function nettoyerJournal(j) {
+    var propre = {};
+    if (!j || typeof j !== 'object') return propre;
+    Object.keys(j).forEach(function (k) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(k) || !j[k] || typeof j[k] !== 'object') return;
+      var e = j[k], o = {};
+      if (nombreOu(e.dm, 0, 10) !== undefined) o.dm = e.dm;
+      if (nombreOu(e.ds, 0, 10) !== undefined) o.ds = e.ds;
+      if (e.sucre === true) o.sucre = true;
+      if (e.alcool === true) o.alcool = true;
+      if (nombreOu(e.poids, 30, 300) !== undefined) o.poids = e.poids;
+      if (nombreOu(e.taille, 40, 250) !== undefined) o.taille = e.taille;
+      if (Object.keys(o).length) propre[k] = o;
+    });
+    return propre;
+  }
+  function nettoyerMarches(m) {
+    if (!Array.isArray(m)) return [];
+    return m.filter(function (x) {
+      return x && typeof x.date === 'string' && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(x.date) && nombreOu(x.minutes, 0, 1440) !== undefined && nombreOu(x.km, 0, 200) !== undefined;
+    }).map(function (x) { return { date: x.date, minutes: x.minutes, km: x.km }; }).slice(-300);
   }
   // Toute modification par l'utilisateur passe ici : sauvegarde locale + synchro.
   function modifie() {
@@ -833,7 +1069,7 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
   }
   function envoyer() {
     if (!sync.ref) return;
-    var corps = { semaine: etat.semaine, suivi: etat.suivi, maj: etat.maj };
+    var corps = donnees();
     sync.chaine = sync.chaine.then(function () { return sync.ref.set(corps); }).catch(function () {
       infoSync('La synchronisation a échoué : le suivi reste enregistré sur cet appareil.');
     });
@@ -884,7 +1120,7 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     });
     return { total: total, faits: faits, pct: total ? Math.round(faits * 100 / total) : 0 };
   }
-  function etatJour(n) { // n = 0..83
+  function etatJour(n) { // n = 0.. (jour du programme)
     var sem = Math.floor(n / 7) + 1, j = n % 7, actifs = 0, faits = 0;
     ACTIVITES.forEach(function (a) {
       if (!estActif(a.id, sem, j)) return;
@@ -895,11 +1131,11 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
   }
   function series() {
     var jours = [], dernier = -1, record = 0, courant = 0, total = 0;
-    for (var n = 0; n < 84; n++) {
+    for (var n = 0; n < MAX_SEM * 7; n++) {
       var e = etatJour(n);
       jours.push(e);
       if (e.entame) dernier = n;
-      if (e.complet) { courant++; total++; if (courant > record) record = courant; } else courant = 0;
+      if (e.complet) { courant++; if (n < 84) total++; if (courant > record) record = courant; } else courant = 0;
     }
     // La série en cours se termine au dernier jour entamé (ou la veille s'il est encore en cours).
     var fin = dernier;
@@ -924,6 +1160,16 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
         '<span class="n">S' + s + '</span><span class="bar"><i style="width:' + st.pct + '%"></i></span></button>';
     }
     el('weeks').innerHTML = html;
+    // Entretien (semaines 13 et plus) : navigation semaine par semaine
+    var sem = etat.semaine, e = '';
+    if (sem > 12) {
+      e = '<button type="button" class="btn" data-sem="' + Math.max(13, sem - 1) + '"' + (sem <= 13 ? ' disabled' : '') + ' aria-label="Semaine précédente">◀</button>' +
+        '<span class="ent-sem">Entretien · semaine ' + sem + ' · ' + statsSemaine(sem).pct + ' %</span>' +
+        '<button type="button" class="btn" data-sem="' + Math.min(MAX_SEM, sem + 1) + '"' + (sem >= MAX_SEM ? ' disabled' : '') + ' aria-label="Semaine suivante">▶</button>';
+    } else {
+      e = '<button type="button" class="btn" data-sem="13">Après les 12 semaines : entretien ▶</button>';
+    }
+    el('entretien').innerHTML = e;
   }
 
   function rendreGrille() {
@@ -977,9 +1223,9 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
 
   // Bandeau des 7 jours (onglets Marche et Exercices) : date réelle + pastille d'avancement.
   function rendreJours() {
-    var sem = etat.semaine, d0 = debutProgramme(), html = '';
+    var sem = etat.semaine, html = '';
     for (var j = 0; j < 7; j++) {
-      var d = new Date(d0.getTime() + ((sem - 1) * 7 + j) * 86400000);
+      var d = dateDuJour(sem, j);
       var e = etatJour((sem - 1) * 7 + j);
       html += '<button type="button" class="jour' + (LEGERS.indexOf(j) >= 0 ? ' leger' : '') + '" data-jour="' + j + '" aria-pressed="' + (j === jourChoisi) + '" aria-label="' + JOURS[j] + ' ' + d.getDate() + (e.complet ? ', complet' : e.entame ? ', commencé' : '') + '">' +
         '<span class="j">' + JOURS_COURTS[j] + '</span><span class="n">' + d.getDate() + '</span><span class="pt' + (e.complet ? ' complet' : e.entame ? ' partiel' : '') + '"></span></button>';
@@ -1055,9 +1301,9 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     // Avancement des 12 semaines (une série, une couleur ; semaine affichée en plus foncé)
     var W = 336, H = 150, bas = 120, haut = 18, pas = W / 12, lb = 16, svg = '';
     svg += '<line class="axe" x1="0" x2="' + W + '" y1="' + bas + '" y2="' + bas + '"/>';
-    var lignes = '';
-    for (var s = 1; s <= 12; s++) {
-      var v = statsSemaine(s).pct, h = (bas - haut) * v / 100, x = (s - 1) * pas + (pas - lb) / 2;
+    var lignes = '', s0 = sem <= 12 ? 1 : sem - 11; // en entretien : les 12 dernières semaines
+    for (var s = s0; s < s0 + 12; s++) {
+      var v = statsSemaine(s).pct, h = (bas - haut) * v / 100, x = (s - s0) * pas + (pas - lb) / 2;
       if (h > 0) {
         var r = Math.min(4, h / 2), y = bas - h;
         svg += '<path class="bar' + (s === sem ? ' today' : '') + '" d="M' + x + ' ' + bas + ' V' + (y + r) + ' Q' + x + ' ' + y + ' ' + (x + r) + ' ' + y +
@@ -1073,7 +1319,7 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     // Séances faites / prévues par activité, sur tout le programme
     el('stats-activites').innerHTML = ACTIVITES.map(function (a) {
       var faits = 0, prevus = 0;
-      for (var s = 1; s <= 12; s++) for (var j = 0; j < 7; j++) if (estActif(a.id, s, j)) { prevus++; if (coche(s, a.id, j)) faits++; }
+      for (var s = 1; s <= Math.max(12, sem); s++) for (var j = 0; j < 7; j++) if (estActif(a.id, s, j)) { prevus++; if (coche(s, a.id, j)) faits++; }
       var pct = prevus ? Math.round(faits * 100 / prevus) : 0;
       return '<div class="act-row"><span>' + a.nom + '</span><span class="barre" role="img" aria-label="' + pct + ' %"><i style="width:' + pct + '%"></i></span><span class="nb">' + faits + ' / ' + prevus + '</span></div>';
     }).join('') + '<p class="small muted" style="margin:6px 0 0">Séances faites sur les séances prévues des 12 semaines.</p>';
@@ -1081,12 +1327,8 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
 
   // ---------- Objectif poids : −0,5 kg par semaine sur 12 semaines ----------
   function rendreObjPoids() {
-    var poids = (sante && sante.poids ? sante.poids.slice() : []).sort(function (a, b) { return a.date < b.date ? -1 : 1; });
-    var d0 = debutProgramme();
-    var depart = 100, source = 'profil de départ';
-    for (var i = 0; i < poids.length; i++) { if (jourDe(poids[i].date) >= new Date(d0.getTime() - 7 * 86400000)) { depart = poids[i].kg; source = 'pesée du ' + dateCourte(jourDe(poids[i].date)); break; } }
-    var cible = depart - 6;
-    var html;
+    var poids = seriePoids(), d0 = debutProgramme(), dep = departPoids();
+    var depart = dep.kg, source = dep.source, cible = depart - 6, html;
     if (poids.length) {
       var actuel = poids[poids.length - 1].kg, perdu = depart - actuel;
       var semaines = Math.max(0, Math.min(12, Math.floor((new Date() - d0) / 604800000) + 1));
@@ -1094,11 +1336,15 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
       html = '<div class="poids-big">' + nombre(actuel, 1) + ' kg</div>' +
         '<div class="small muted">Départ ' + nombre(depart, 1) + ' kg (' + source + ') · objectif ' + nombre(cible, 1) + ' kg en 12 semaines</div>' +
         '<div class="poids-barre" role="img" aria-label="' + Math.round(pct) + ' % de l\'objectif"><i style="width:' + pct + '%"></i></div>' +
-        '<div class="small">' + (perdu >= 0 ? '−' : '+') + nombre(Math.abs(perdu), 1) + ' kg depuis le départ · attendu à ce stade : −' + nombre(attendu, 1) + ' kg</div>';
+        '<div class="small">' + (Math.abs(perdu) < 0.05 ? '±0' : (perdu >= 0 ? '−' : '+') + nombre(Math.abs(perdu), 1)) + ' kg depuis le départ · attendu à ce stade : −' + nombre(attendu, 1) + ' kg</div>';
     } else {
       html = '<p style="margin:0">Objectif : <strong>−0,5 kg par semaine</strong>, soit environ <strong>−6 kg</strong> sur les 12 semaines (de 100 kg à 94 kg).</p>' +
-        '<p class="small muted" style="margin:6px 0 0">' + (window.AppAndroid ? 'Aucune pesée dans Santé Connect pour l\'instant : une balance connectée ou une saisie dans une appli santé suffit.' : 'Dans l\'appli Android, tes pesées Santé Connect s\'afficheront ici.') + '</p>';
+        '<p class="small muted" style="margin:6px 0 0">Note ton poids dans « Mon corps » ci-dessus' + (window.AppAndroid ? ', ou pèse-toi avec une balance reliée à Santé Connect.' : '.') + '</p>';
     }
+    var t = serieTaille();
+    var cm = function (v) { return nombre(v, v % 1 ? 1 : 0); };
+    if (t.length) html += '<div class="small" style="margin-top:6px">Tour de taille : ' + cm(t[t.length - 1].cm) + ' cm' +
+      (t.length > 1 ? ' (' + (t[t.length - 1].cm - t[0].cm <= 0 ? '−' : '+') + cm(Math.abs(t[t.length - 1].cm - t[0].cm)) + ' cm depuis le ' + dateCourte(jourDe(t[0].date)) + ')' : '') + '</div>';
     el('obj-poids').innerHTML = html;
   }
 
@@ -1195,7 +1441,7 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
       el('credit').hidden = true;
     }
     el('circuit-chips').innerHTML = chips;
-    el('circuit-head').innerHTML = head;
+    el('circuit-head').innerHTML = head + (liste.length ? '<button class="btn btn-primary" type="button" data-guide="fiche" style="margin-top:8px">▶ Séance guidée</button>' : '');
     el('exos').innerHTML = liste.length ? liste.map(function (e, i) { return carte(e, i, numeroter ? liste.length : 0); }).join('')
       : '<p class="muted">Fiches indisponibles.</p>';
 
@@ -1256,12 +1502,19 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     rendreStats();
     rendreObjPoids();
     rendreChrono();
+    rendreJournal();
+    rendreAlerte();
+    rendreGuidesJour();
+    rendreBilanSemaine();
+    rendreDouleur();
+    rendreBadges();
     if (window.AppAndroid) rendreSante();
   }
 
   // Après une case cochée/décochée : tout ce qui en dépend, sans toucher aux fiches.
   function apresCoche() {
     rendreGrille(); rendreSemaines(); rendreJours(); rendreCoches(); rendreSerie(); rendreStats(); afficherCocher();
+    rendreAlerte(); rendreBilanSemaine(); rendreDouleur(); rendreBadges();
     if (window.AppAndroid) rendreSante();
   }
   function basculer(act, j) {
@@ -1274,6 +1527,7 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     jourChoisi = j;
     fiche.mob = mobDuJour(etat.semaine, j);
     rendreGrille(); rendreJours(); rendrePlanMarche(); rendrePlan(); rendreCoches(); rendreFiches(); afficherCocher();
+    rendreJournal(); rendreAlerte(); rendreGuidesJour();
   }
 
   // ---------- Minuteur ----------
@@ -1498,6 +1752,14 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
   });
 
   // ---------- Interactions ----------
+  el('entretien').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-sem]');
+    if (!b || b.disabled) return;
+    etat.semaine = +b.dataset.sem;
+    fiche.mob = mobDuJour(etat.semaine, jourChoisi);
+    modifie();
+    toutRendre();
+  });
   el('weeks').addEventListener('click', function (e) {
     var b = e.target.closest('.week-btn');
     if (!b) return;
@@ -1608,7 +1870,7 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     ? window.claude.use('downloads').catch(function () { return null; })
     : Promise.resolve(null);
   el('btn-export').addEventListener('click', function () {
-    var json = JSON.stringify({ application: 'Routine Dos & Forme', v: 1, exporteLe: new Date().toISOString(), semaine: etat.semaine, suivi: etat.suivi, maj: etat.maj }, null, 2);
+    var json = JSON.stringify(Object.assign({ application: 'Routine Dos & Forme', exporteLe: new Date().toISOString() }, donnees()), null, 2);
     var nom = 'routine-dos-forme-' + new Date().toISOString().slice(0, 10) + '.json';
     var nb = Object.keys(etat.suivi).length;
     if (window.AppAndroid) { window.AppAndroid.enregistrerFichier(nom, json); return; }
@@ -1640,7 +1902,9 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
         var d = JSON.parse(r.result);
         if (!d || typeof d !== 'object' || !d.suivi || typeof d.suivi !== 'object') throw new Error('format');
         etat.suivi = nettoyer(d.suivi);
-        if (d.semaine >= 1 && d.semaine <= 12) etat.semaine = d.semaine | 0;
+        if (d.journal) etat.journal = nettoyerJournal(d.journal);
+        if (d.marches) etat.marches = nettoyerMarches(d.marches);
+        if (d.semaine >= 1 && d.semaine <= MAX_SEM) etat.semaine = d.semaine | 0;
         modifie(); toutRendre();
         statut('Suivi importé : ' + Object.keys(etat.suivi).length + ' cases cochées.', 'ok');
       } catch (err) {
@@ -1697,10 +1961,13 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
   function graphePas(jours) {
     var d = jours.slice(-14);
     if (!d.length) return '';
-    var max = Math.max.apply(null, d.map(function (x) { return x.pas || 0; }).concat([1000]));
+    var obj = phaseDe(etat.semaine).pas;
+    var max = Math.max.apply(null, d.map(function (x) { return x.pas || 0; }).concat([1000, obj * 1.12]));
     var W = 320, H = 120, bas = 100, haut = 18, pas = W / 14, lb = 12;
-    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Pas par jour sur les 14 derniers jours">';
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Pas par jour sur les 14 derniers jours, objectif ' + obj + ' pas">';
     svg += '<line class="axe" x1="0" x2="' + W + '" y1="' + bas + '" y2="' + bas + '"/>';
+    var yObj = bas - (bas - haut) * obj / max;
+    svg += '<line class="objectif" x1="0" x2="' + W + '" y1="' + yObj.toFixed(1) + '" y2="' + yObj.toFixed(1) + '"/><text x="2" y="' + (yObj - 4).toFixed(1) + '">objectif ' + nombre(obj) + '</text>';
     d.forEach(function (x, i) {
       var v = x.pas || 0, h = Math.max(v ? 2 : 0, (bas - haut) * v / max), xx = i * pas + (pas - lb) / 2, dt = jourDe(x.date);
       var dernier = i === d.length - 1;
@@ -1727,8 +1994,10 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     var moyPas = j7.length ? j7.reduce(function (a, x) { return a + (x.pas || 0); }, 0) / j7.length : 0;
     var dist7 = j7.reduce(function (a, x) { return a + (x.distance || 0); }, 0);
     var fc = j7.filter(function (x) { return x.fcMoy; });
-    var poids = (sante.poids || []).slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
-    var tiles = tuile('Pas aujourd\'hui', auj.pas != null ? nombre(auj.pas) : '—', 'moyenne 7 j : ' + nombre(moyPas));
+    var poids = seriePoids(); // Santé Connect + saisies du journal
+    var objPas = phaseDe(etat.semaine).pas;
+    var tiles = tuile('Pas aujourd\'hui', auj.pas != null ? nombre(auj.pas) + '<span class="unit"> / ' + nombre(objPas) + '</span>' : '—',
+      (auj.pas >= objPas ? '✓ objectif atteint · ' : 'objectif de la phase · ') + 'moy. 7 j : ' + nombre(moyPas));
     tiles += tuile('Distance 7 jours', dist7 ? nombre(dist7 / 1000, 1) + ' km' : '—', dist7 ? 'soit ' + nombre(dist7 / 7000, 1) + ' km/jour' : 'aucune donnée');
     if (poids.length) {
       var der = poids[poids.length - 1], il30 = new Date(jourDe(der.date) - 30 * 86400000), ref = null;
@@ -1744,6 +2013,11 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
       var mx = Math.max.apply(null, fc.map(function (x) { return x.fcMax || x.fcMoy; }));
       tiles += tuile('Fréquence cardiaque', nombre(moy) + ' bpm', 'moyenne 7 j · ' + nombre(mn) + ' à ' + nombre(mx));
     } else tiles += tuile('Fréquence cardiaque', '—', 'aucune mesure');
+    var nuits = nuitsSommeil();
+    if (nuits.length) {
+      var n7 = nuits.slice(-7), moyN = n7.reduce(function (a, x) { return a + x.min; }, 0) / n7.length;
+      tiles += tuile('Sommeil', dureeTexte(nuits[nuits.length - 1].min), 'dernière nuit · moy. 7 nuits : ' + dureeTexte(moyN));
+    } else tiles += tuile('Sommeil', '—', 'aucune nuit enregistrée');
     el('sante-tiles').innerHTML = tiles;
     el('sante-pas').innerHTML = graphePas(jours);
     var seances = (sante.seances || []).slice().sort(function (a, b) { return a.debut < b.debut ? 1 : -1; }).slice(0, 10);
@@ -1803,6 +2077,665 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
     el('sante-promo').hidden = false;
   }
 
+  // ---------- Dates du programme ----------
+  // Arithmétique par jours calendaires (pas en millisecondes) : insensible aux changements d'heure.
+  function dateDuJour(sem, j) { var d = debutProgramme(); d.setDate(d.getDate() + (sem - 1) * 7 + j); return d; }
+  function isoChoisi() { return isoJour(dateDuJour(etat.semaine, jourChoisi)); }
+  function decaler(iso, n) { var d = jourDe(iso); d.setDate(d.getDate() + n); return isoJour(d); }
+  function aujourdHui() { return isoJour(new Date()); }
+
+  var minuteurToast = null;
+  function toast(msg) {
+    el('toast').textContent = msg;
+    el('toast').hidden = false;
+    clearTimeout(minuteurToast);
+    minuteurToast = setTimeout(function () { el('toast').hidden = true; }, 4500);
+  }
+
+  // ---------- Journal : douleur, sucre, alcool, poids, tour de taille ----------
+  function entree(iso) { return etat.journal[iso] || {}; }
+  function majJournal(iso, champ, valeur) {
+    var e = Object.assign({}, etat.journal[iso]);
+    if (valeur === undefined || valeur === null || valeur === false || valeur === '') delete e[champ]; else e[champ] = valeur;
+    if (Object.keys(e).length) etat.journal[iso] = e; else delete etat.journal[iso];
+    modifie();
+  }
+  function rendreJournal() {
+    var iso = isoChoisi(), e = entree(iso);
+    el('journal-title').textContent = 'Mon corps · ' + dateCourte(jourDe(iso));
+    [['j-dm', 'dm'], ['j-ds', 'ds']].forEach(function (p) {
+      var v = e[p[1]], inp = el(p[0]), out = el(p[0] + '-val');
+      inp.value = v != null ? v : 0;
+      inp.classList.toggle('vide', v == null);
+      out.textContent = v != null ? v + ' / 10' : 'non notée';
+      out.classList.toggle('vide', v == null);
+    });
+    [['j-sucre', 'sucre'], ['j-alcool', 'alcool']].forEach(function (p) {
+      var on = !!e[p[1]], b = el(p[0]);
+      b.setAttribute('aria-pressed', String(on));
+      b.querySelector('.etat').textContent = on ? '✓ Oui' : '—';
+    });
+    if (document.activeElement !== el('j-poids')) el('j-poids').value = e.poids != null ? nombre(e.poids, 1) : '';
+    if (document.activeElement !== el('j-taille')) el('j-taille').value = e.taille != null ? nombre(e.taille, e.taille % 1 ? 1 : 0) : '';
+  }
+  function apresJournal() { rendreAlerte(); rendreDouleur(); rendreBilanSemaine(); rendreObjPoids(); rendreBadges(); }
+
+  // Règle des 24 h de l'enseignant APA : pas de douleur anormale jusqu'au lendemain d'une séance.
+  function alerteDouleur(iso) {
+    var e = entree(iso), v = entree(decaler(iso, -1)), pos = positionProgramme(decaler(iso, -1));
+    var seanceHier = pos && (coche(pos.sem, 'renfo', pos.j) || coche(pos.sem, 'marche', pos.j));
+    if (e.dm != null && e.dm >= 7) return '<strong>Douleur forte ce matin (' + e.dm + '/10).</strong> Aujourd\'hui : mobilité douce seulement, pas de renfo. Si elle ne passe pas au repos, ou avec un signal d\'alerte, consulte.';
+    if (e.dm != null && v.dm != null && e.dm >= v.dm + 2 && seanceHier) return '<strong>Douleur en hausse depuis la séance d\'hier</strong> (' + v.dm + ' → ' + e.dm + '/10). Règle des 24 h : refais le même niveau sans augmenter, ou 1 tour au lieu de 2. Si ça continue, parles-en à ton enseignant APA.';
+    if (e.ds != null && e.ds >= 6) return '<strong>Séance douloureuse (' + e.ds + '/10).</strong> La prochaine fois, reste au même niveau ou allège, et note ta douleur au réveil demain pour vérifier la règle des 24 h.';
+    return '';
+  }
+  function rendreAlerte() {
+    var m = alerteDouleur(isoChoisi());
+    ['alerte-douleur', 'alerte-journal'].forEach(function (id) { el(id).innerHTML = m; el(id).hidden = !m; });
+  }
+
+  ['j-dm', 'j-ds'].forEach(function (id) {
+    el(id).addEventListener('input', function (e) {
+      var v = +e.target.value;
+      e.target.classList.remove('vide');
+      el(id + '-val').textContent = v + ' / 10';
+      el(id + '-val').classList.remove('vide');
+      majJournal(isoChoisi(), id === 'j-dm' ? 'dm' : 'ds', v);
+    });
+    el(id).addEventListener('change', apresJournal);
+  });
+  [['j-sucre', 'sucre'], ['j-alcool', 'alcool']].forEach(function (p) {
+    el(p[0]).addEventListener('click', function () {
+      majJournal(isoChoisi(), p[1], !entree(isoChoisi())[p[1]]);
+      rendreJournal(); apresJournal();
+    });
+  });
+  [['j-poids', 'poids', 30, 300], ['j-taille', 'taille', 40, 250]].forEach(function (p) {
+    el(p[0]).addEventListener('change', function (e) {
+      var v = parseFloat(String(e.target.value).replace(',', '.'));
+      majJournal(isoChoisi(), p[1], isFinite(v) && v >= p[2] && v <= p[3] ? Math.round(v * 10) / 10 : undefined);
+      rendreJournal(); apresJournal();
+    });
+  });
+
+  // ---------- Poids : pesées Santé Connect + saisies du journal ----------
+  function seriePoids() {
+    var m = {};
+    ((sante && sante.poids) || []).forEach(function (p) { m[p.date.slice(0, 10)] = p.kg; });
+    Object.keys(etat.journal).forEach(function (k) { if (etat.journal[k].poids != null) m[k] = etat.journal[k].poids; });
+    return Object.keys(m).sort().map(function (k) { return { date: k, kg: m[k] }; });
+  }
+  function serieTaille() {
+    return Object.keys(etat.journal).sort().filter(function (k) { return etat.journal[k].taille != null; })
+      .map(function (k) { return { date: k, cm: etat.journal[k].taille }; });
+  }
+  function departPoids() {
+    var s = seriePoids(), lim = isoJour(dateDuJour(1, -7));
+    for (var i = 0; i < s.length; i++) if (s[i].date >= lim) return { kg: s[i].kg, source: 'pesée du ' + dateCourte(jourDe(s[i].date)) };
+    return { kg: 100, source: 'profil de départ' };
+  }
+
+  // ---------- Séance guidée ----------
+  DESSINS.marche = dessin(tete(100, 20) + trait('100,30 104,64') + trait('104,64 88,84 78,104 66,104') + trait('104,64 120,84 130,104 144,104') + trait('102,38 84,60') + trait('102,38 124,54'));
+
+  function dureeEtape(dose) {
+    var t = String(dose || '').toLowerCase(), sec = null;
+    var m = t.match(/(\d+)\s*(?:s\b|sec\b|secondes?)/);
+    if (m) sec = +m[1];
+    else { var mm = t.match(/^(\d+)\s*min/); if (mm) sec = +mm[1] * 60; }
+    var cotes = /(par|de chaque|chaque)\s+(jambe|côté)|\/\s*(côté|jambe)|sur chaque jambe/.test(t);
+    return { sec: sec, cotes: cotes };
+  }
+  // Exercices → étapes ; les « OU » (au choix) sont signalés sur l'exercice précédent plutôt que répétés.
+  function etapesDe(exos, tours) {
+    var base = [];
+    exos.forEach(function (e) {
+      if (e.ou && base.length) { base[base.length - 1].conseils = base[base.length - 1].conseils.concat(['Au choix : ' + e.nom + ' (' + e.dose + ')']); return; }
+      var d = dureeEtape(e.dose);
+      base.push({ nom: e.nom, dose: e.dose, conseils: (e.conseils || (e.desc ? [e.desc] : [])).slice(), img: e.img, sec: d.sec, cotes: d.cotes });
+    });
+    var out = [];
+    for (var t = 1; t <= tours; t++) base.forEach(function (b) { out.push(Object.assign({ tour: t, tours: tours }, b)); });
+    return out;
+  }
+  function etapesPerinee() {
+    var p = phaseDe(etat.semaine), out = [];
+    p.perinee.forEach(function (e) {
+      var d = e.dose, m = d.match(/(\d+)\s*s\s*×\s*(\d+)/), n = d.match(/(\d+)\s*×\s*(\d+)/), x = d.match(/×\s*(\d+)/);
+      if (m) out.push({ type: 'rythme', nom: e.nom, dose: d, on: +m[1], off: 10, reps: +m[2], conseils: [e.desc] });
+      else if (/rapides/i.test(e.nom)) out.push({ type: 'rythme', nom: e.nom, dose: d, on: 1, off: 1, reps: n ? +n[1] * +n[2] : (x ? +x[1] : 10), conseils: [e.desc] });
+      else if (x) out.push({ nom: e.nom, dose: d, sec: null, conseils: [e.desc] });
+    });
+    return out;
+  }
+  var ROUTE = [
+    { nom: 'Montées de genoux alternées', dose: '20 secondes', img: 'r1-2', conseils: ['Sur place, sans courir. Bras qui accompagnent.'] },
+    { nom: 'Talons fesses alternés', dose: '20 secondes', img: 'r1-1', conseils: ['Une main sur la voiture si besoin pour l\'équilibre.'] },
+    { nom: 'Cercles avec les épaules', dose: '30 secondes', img: 'r1-3', conseils: ['15 en arrière, 15 en avant. Relâche la nuque.'] },
+    { nom: 'Étirement quadriceps', dose: '15 secondes par jambe', img: 'm1-8', conseils: ['Debout, attrape la cheville, genoux serrés. Tiens-toi à la portière.'] },
+    { nom: 'Étirement chaîne postérieure', dose: '20 secondes', img: 'm1-6', conseils: ['Jambes tendues, laisse pendre les bras sans forcer. Remonte en déroulant le dos.'] },
+    { nom: 'Quelques pas autour du véhicule', dose: '1 min', img: 'marche', conseils: ['Marche tranquille, épaules relâchées, en respirant profondément.'] }
+  ];
+
+  var guide = null, guideTic = null;
+  function lancerGuide(titre, etapes, acts) {
+    if (!etapes.length) return;
+    initAudio();
+    guide = { titre: titre, etapes: etapes, acts: acts || [], i: 0, phase: 'prep', restant: 5, pause: false, rep: 0, cle: '' };
+    el('guide').hidden = false;
+    garderEcran(true);
+    clearInterval(guideTic);
+    guideTic = setInterval(tickGuide, 1000);
+    rendreGuide();
+    el('guide-pause').focus();
+  }
+  function fermerGuide() {
+    clearInterval(guideTic); guideTic = null;
+    guide = null;
+    el('guide').hidden = true;
+    if (!chrono.fin && !gps.actif) garderEcran(false);
+  }
+  function demarrerEtape() {
+    var e = guide.etapes[guide.i];
+    if (e.type === 'rythme') { guide.phase = 'serre'; guide.rep = 1; guide.restant = e.on; vibrer(200); bips(1, 880); }
+    else if (e.sec) { guide.phase = 'effort'; guide.restant = e.sec * (e.cotes ? 2 : 1); bips(1, 880); }
+    else guide.phase = 'reps';
+  }
+  function etapeSuivante() {
+    guide.i++;
+    if (guide.i >= guide.etapes.length) { guide.phase = 'fin'; bips(3, 988); vibrer([300, 150, 300]); }
+    else { guide.phase = 'prep'; guide.restant = guide.etapes[guide.i].type === 'rythme' ? 3 : 5; }
+    rendreGuide();
+  }
+  function tickGuide() {
+    if (!guide || guide.pause || guide.phase === 'reps' || guide.phase === 'fin') return;
+    var e = guide.etapes[guide.i];
+    guide.restant--;
+    if (guide.phase === 'prep') { if (guide.restant <= 0) demarrerEtape(); }
+    else if (guide.phase === 'effort') {
+      if (e.cotes && guide.restant === e.sec) { bips(2, 660); vibrer([120, 80, 120]); }
+      if (guide.restant <= 0) { bips(2, 988); etapeSuivante(); return; }
+    } else if (guide.phase === 'serre') {
+      if (guide.restant <= 0) { guide.phase = 'relache'; guide.restant = e.off; vibrer([80, 60, 80]); }
+    } else if (guide.phase === 'relache') {
+      if (guide.restant <= 0) {
+        guide.rep++;
+        if (guide.rep > e.reps) { etapeSuivante(); return; }
+        guide.phase = 'serre'; guide.restant = e.on; vibrer(200);
+      }
+    }
+    rendreGuide();
+  }
+  function rendreGuide() {
+    if (!guide) return;
+    var g = guide, n = g.etapes.length, e = g.etapes[Math.min(g.i, n - 1)];
+    el('guide-titre').textContent = g.titre;
+    el('guide-etape').textContent = g.phase === 'fin' ? 'Terminé' : 'Exercice ' + (g.i + 1) + ' / ' + n + (e.tours > 1 ? ' · tour ' + e.tour + ' / ' + e.tours : '');
+    el('guide-avance').style.width = (g.phase === 'fin' ? 100 : g.i * 100 / n) + '%';
+    el('guide-bas').hidden = g.phase === 'fin';
+    el('guide-pause').textContent = g.phase === 'reps' ? 'C\'est fait ▶' : g.pause ? 'Reprendre' : 'Pause';
+    var cle = g.i + '|' + g.phase + (g.phase === 'serre' || g.phase === 'relache' ? '' : '');
+    var fmt = function (s) { return s >= 60 ? Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2) : String(s); };
+    // Mise à jour légère (compte à rebours) si on reste sur la même étape et la même phase
+    if (cle === g.cle && el('g-compte')) {
+      el('g-compte').textContent = fmt(Math.max(0, g.restant));
+      if (el('g-info')) el('g-info').textContent = infoGuide();
+      return;
+    }
+    g.cle = cle;
+    var photo = e.img ? '<div class="guide-photo">' + illustration(e.img) + '</div>' : '';
+    var cs = (e.conseils || []).map(function (c) { return '<div class="guide-cs">' + esc(c) + '</div>'; }).join('');
+    var html;
+    if (g.phase === 'fin') {
+      var boutons = g.acts.map(function (a) {
+        if (!estActif(a, etat.semaine, jourChoisi)) return '';
+        var fait = coche(etat.semaine, a, jourChoisi), nom = ACTIVITES.filter(function (x) { return x.id === a; })[0].nom;
+        return '<button type="button" class="coche" data-guide-coche="' + a + '" aria-pressed="' + fait + '"><span>' + nom + '</span><span class="etat">' + (fait ? '✓ Fait' : 'Cocher') + '</span></button>';
+      }).join('');
+      var ds = entree(isoChoisi()).ds;
+      html = '<div class="guide-fin"><div class="guide-nom">Séance terminée, bravo !</div>' + boutons +
+        '<div class="curseur" style="text-align:left"><label for="g-ds">Douleur après la séance <span class="val" id="g-ds-val">' + (ds != null ? ds + ' / 10' : 'non notée') + '</span></label>' +
+        '<input type="range" id="g-ds" min="0" max="10" step="1" value="' + (ds != null ? ds : 0) + '"' + (ds == null ? ' class="vide"' : '') + '></div>' +
+        '<button type="button" class="btn btn-primary" id="g-fermer">Fermer</button></div>';
+    } else if (g.phase === 'prep') {
+      html = '<span class="guide-info">Prépare-toi</span>' + photo + '<div class="guide-nom">' + esc(e.nom) + '</div><div class="guide-dose">' + esc(e.dose || '') + '</div>' +
+        '<div class="guide-compte" id="g-compte">' + g.restant + '</div>';
+    } else if (g.phase === 'serre' || g.phase === 'relache') {
+      html = '<div class="guide-nom">' + esc(e.nom) + '</div><div class="guide-dose" id="g-info">' + infoGuide() + '</div>' +
+        '<div class="guide-rythme ' + g.phase + '">' + (g.phase === 'serre' ? 'SERRE' : 'RELÂCHE') + '<div class="guide-compte" id="g-compte" style="font-size:2.4rem">' + g.restant + '</div></div>' + cs;
+    } else {
+      html = photo + '<div class="guide-nom">' + esc(e.nom) + '</div><div class="guide-dose">' + esc(e.dose || '') + '</div>' +
+        (g.phase === 'effort' ? '<div class="guide-compte" id="g-compte">' + fmt(g.restant) + '</div><span class="guide-info" id="g-info">' + infoGuide() + '</span>'
+          : '<span class="guide-info">À ton rythme, puis « C\'est fait »</span>') + cs;
+    }
+    el('guide-corps').innerHTML = html;
+  }
+  function infoGuide() {
+    var g = guide, e = g.etapes[g.i];
+    if (!e) return '';
+    if (g.phase === 'serre' || g.phase === 'relache') return 'Répétition ' + Math.min(g.rep, e.reps) + ' / ' + e.reps;
+    if (g.phase === 'effort') return e.cotes ? (g.restant > e.sec ? 'Premier côté' : 'Deuxième côté') : (g.pause ? 'En pause' : 'C\'est parti');
+    return '';
+  }
+  el('guide-fermer').addEventListener('click', fermerGuide);
+  el('guide-pause').addEventListener('click', function () {
+    if (!guide) return;
+    if (guide.phase === 'reps') { etapeSuivante(); return; }
+    guide.pause = !guide.pause;
+    guide.cle = '';
+    rendreGuide();
+  });
+  el('guide-suiv').addEventListener('click', function () { if (guide) etapeSuivante(); });
+  el('guide-prec').addEventListener('click', function () {
+    if (!guide) return;
+    guide.i = Math.max(0, guide.i - 1);
+    guide.phase = 'prep'; guide.restant = 3; guide.cle = '';
+    rendreGuide();
+  });
+  el('guide-corps').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-guide-coche]');
+    if (b) {
+      var a = b.dataset.guideCoche;
+      if (!coche(etat.semaine, a, jourChoisi)) { etat.suivi[cle(etat.semaine, a, jourChoisi)] = true; modifie(); apresCoche(); }
+      guide.cle = ''; rendreGuide();
+    }
+    if (e.target.id === 'g-fermer') fermerGuide();
+  });
+  el('guide-corps').addEventListener('input', function (e) {
+    if (e.target.id !== 'g-ds') return;
+    e.target.classList.remove('vide');
+    el('g-ds-val').textContent = e.target.value + ' / 10';
+    majJournal(isoChoisi(), 'ds', +e.target.value);
+  });
+  el('guide-corps').addEventListener('change', function (e) { if (e.target.id === 'g-ds') { rendreJournal(); apresJournal(); } });
+
+  function lancerGuideType(type) {
+    var p = phaseDe(etat.semaine), sem = etat.semaine, j = jourChoisi;
+    var mob = APA.mobilite[mobDuJour(sem, j)], r = APA.renfo[renfoDuJour(sem, j) + 1];
+    if (type === 'route') lancerGuide('Pause route', etapesDe(ROUTE, 1), []);
+    else if (type === 'perinee') lancerGuide('Périnée guidé', etapesPerinee(), ['perinee']);
+    else if (type === 'jour-mob' && mob) lancerGuide('Mobilité · ' + mob.titre, etapesDe(mob.exos, p.apa.toursMob), ['etirements']);
+    else if (type === 'jour-renfo' && mob && r) {
+      lancerGuide('Séance du ' + JOURS[j].toLowerCase(), etapesDe(APA.renfo[0].exos, 1).concat(etapesDe(r.exos, p.apa.toursRenfo), etapesDe(mob.exos, 1)), ['renfo', 'etirements']);
+    } else if (type === 'fiche') {
+      if (fiche.groupe === 'mob') { var c = APA.mobilite[fiche.mob]; lancerGuide('Mobilité · ' + c.titre, etapesDe(c.exos, p.apa.toursMob), ['etirements']); }
+      else if (fiche.groupe === 'renfo') { var cr = APA.renfo[fiche.renfo]; lancerGuide(cr.titre, etapesDe(cr.exos, fiche.renfo === 0 ? 1 : p.apa.toursRenfo), fiche.renfo === 0 ? [] : ['renfo']); }
+      else if (fiche.mes === 'renfo') {
+        var nbSeries = Math.max.apply(null, p.renfo.map(function (e) { var m = e.dose.match(/^(\d+)\s*×/); return m ? +m[1] : 1; }));
+        lancerGuide('Circuit dos', etapesDe(p.renfo.map(function (e) { var o = Object.assign({}, e); o.dose = e.dose.replace(/^\d+\s*×\s*/, ''); return o; }), nbSeries), ['renfo']);
+      } else lancerGuide(fiche.mes === 'bonus' ? 'Étirements bonus' : 'Étirements essentiels', etapesDe(ETIREMENTS[fiche.mes], 1), ['etirements']);
+    }
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-guide]');
+    if (b) lancerGuideType(b.dataset.guide);
+  });
+  function rendreGuidesJour() {
+    var renfo = estActif('renfo', etat.semaine, jourChoisi);
+    el('guides-jour').innerHTML = (renfo ? '<button class="btn btn-primary" type="button" data-guide="jour-renfo">▶ Séance guidée complète</button><button class="btn" type="button" data-guide="jour-mob">▶ Mobilité seule</button>'
+      : '<button class="btn btn-primary" type="button" data-guide="jour-mob">▶ Mobilité guidée</button>') +
+      '<button class="btn" type="button" data-guide="perinee">▶ Périnée</button>';
+  }
+
+  // ---------- Mode route : rappel de pause pendant les longues journées de conduite ----------
+  var CLE_ROUTE = 'routine-dos-forme.route';
+  var route = Object.assign({ actif: false, min: 105, prochaine: 0 }, lire(CLE_ROUTE) || {});
+  function heureCourte(t) { return new Date(t).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }); }
+  function rendreRoute() {
+    el('route-intervalle').value = String(route.min);
+    var b = el('route-mode');
+    b.setAttribute('aria-pressed', String(route.actif));
+    b.querySelector('.etat').textContent = route.actif ? 'Prochaine pause vers ' + heureCourte(route.prochaine) : 'Désactivé';
+  }
+  function activerRoute(on) {
+    route.actif = on;
+    route.prochaine = on ? Date.now() + route.min * 60000 : 0;
+    ecrire(CLE_ROUTE, route);
+    if (window.AppAndroid) { if (on) window.AppAndroid.rappelRoute(route.min); else window.AppAndroid.rappelRouteArret(); }
+    rendreRoute();
+    toast(on ? 'Mode route activé : pause toutes les ' + (route.min >= 120 ? '2 h' : '1 h ' + (route.min - 60)) + '. Bonne route !' : 'Mode route désactivé.');
+  }
+  var attenteNotif = null;
+  function avecNotifications(action) {
+    if (!window.AppAndroid || window.AppAndroid.notificationsAutorisees() === 'oui') { action(); return; }
+    attenteNotif = action;
+    window.AppAndroid.demanderNotifications();
+  }
+  window.notifAutorisees = function (ok) {
+    var a = attenteNotif; attenteNotif = null;
+    if (ok && a) a();
+    else if (!ok) toast('Notifications refusées : active-les dans les réglages Android de l\'appli pour recevoir les rappels.');
+  };
+  el('route-mode').addEventListener('click', function () { if (route.actif) activerRoute(false); else avecNotifications(function () { activerRoute(true); }); });
+  el('route-intervalle').addEventListener('change', function (e) {
+    route.min = +e.target.value;
+    if (route.actif) activerRoute(true); else { ecrire(CLE_ROUTE, route); rendreRoute(); }
+  });
+  // Hors appli Android : rappel dans la page tant qu'elle est ouverte.
+  setInterval(function () {
+    if (!route.actif || window.AppAndroid || Date.now() < route.prochaine) return;
+    while (route.prochaine <= Date.now()) route.prochaine += route.min * 60000;
+    ecrire(CLE_ROUTE, route); rendreRoute();
+    initAudio(); bips(3, 880); vibrer([300, 150, 300]);
+    toast('Pause route ! À la prochaine aire : 3 minutes debout pour ton dos.');
+  }, 30000);
+
+  // ---------- Rappel quotidien (appli Android) ----------
+  var CLE_RAPPEL = 'routine-dos-forme.rappel';
+  var rappel = Object.assign({ actif: false, heure: '18:30' }, lire(CLE_RAPPEL) || {});
+  function rendreRappel() {
+    el('rappel-heure').value = rappel.heure;
+    el('rappel-actif').setAttribute('aria-pressed', String(rappel.actif));
+    el('rappel-actif').querySelector('.etat').textContent = rappel.actif ? 'Chaque jour à ' + rappel.heure : 'Désactivé';
+  }
+  function appliquerRappel() {
+    var hm = rappel.heure.split(':');
+    if (rappel.actif) window.AppAndroid.rappelQuotidien(+hm[0], +hm[1]); else window.AppAndroid.rappelQuotidienArret();
+    ecrire(CLE_RAPPEL, rappel); rendreRappel();
+  }
+  el('rappel-actif').addEventListener('click', function () {
+    if (!window.AppAndroid) return;
+    if (rappel.actif) { rappel.actif = false; appliquerRappel(); toast('Rappel quotidien désactivé.'); }
+    else avecNotifications(function () { rappel.actif = true; appliquerRappel(); toast('Rappel chaque jour à ' + rappel.heure + '.'); });
+  });
+  el('rappel-heure').addEventListener('change', function (e) {
+    if (!/^\d{2}:\d{2}$/.test(e.target.value)) return;
+    rappel.heure = e.target.value;
+    if (rappel.actif && window.AppAndroid) appliquerRappel(); else { ecrire(CLE_RAPPEL, rappel); rendreRappel(); }
+  });
+  window.actionNotification = function (a) {
+    if (a === 'route') { changerOnglet('marche', true); el('route').scrollIntoView({ block: 'start' }); toast('Une fois arrêté : lance la pause route.'); }
+    else changerOnglet('exos');
+  };
+
+  // ---------- Suivi GPS de la marche ----------
+  var CLE_GPS = 'routine-dos-forme.gps';
+  var gps = Object.assign({ actif: false, debut: 0, cumul: 0, reprise: 0, km: 0, points: [] }, lire(CLE_GPS) || {});
+  gps.actif = false; // une marche interrompue (appli fermée) reprend en pause
+  var gpsWatch = null, gpsDernier = null, gpsTic = null, gpsSauve = 0;
+  function gpsDuree() { return gps.cumul + (gps.actif ? Date.now() - gps.reprise : 0); }
+  function distance(a, b) {
+    var R = 6371000, r = Math.PI / 180, dLat = (b[0] - a[0]) * r, dLon = (b[1] - a[1]) * r;
+    var h = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    return 2 * R * Math.asin(Math.sqrt(h));
+  }
+  function gpsPosition(p) {
+    var c = p.coords;
+    if (c.accuracy > 35) { el('gps-info').textContent = 'Recherche d\'un signal GPS précis… (' + Math.round(c.accuracy) + ' m)'; return; }
+    var pt = [c.latitude, c.longitude], t = Date.now();
+    if (gpsDernier) {
+      var d = distance(gpsDernier.pt, pt), dt = (t - gpsDernier.t) / 1000;
+      if (d < 4) return;
+      if (dt > 0 && d / dt > 8) return; // saut aberrant
+      gps.km += d / 1000;
+    }
+    gpsDernier = { pt: pt, t: t };
+    gps.points.push([Math.round(pt[0] * 1e5) / 1e5, Math.round(pt[1] * 1e5) / 1e5]);
+    if (gps.points.length > 1500) gps.points = gps.points.filter(function (x, i) { return i % 2 === 0; });
+    el('gps-info').textContent = 'Signal GPS correct (' + Math.round(c.accuracy) + ' m).';
+    if (Date.now() - gpsSauve > 15000) { gpsSauve = Date.now(); ecrire(CLE_GPS, Object.assign({}, gps, { cumul: gpsDuree(), actif: false })); }
+    rendreGps();
+  }
+  function gpsErreur(e) {
+    el('gps-info').textContent = e.code === 1 ? 'Localisation refusée : autorise-la pour l\'appli dans les réglages du téléphone.' : 'Signal GPS indisponible pour l\'instant. Reste à découvert, ça revient en général vite.';
+  }
+  function gpsDemarrer() {
+    if (!navigator.geolocation) { el('gps-info').textContent = 'Le GPS n\'est pas disponible ici.'; return; }
+    initAudio();
+    if (!gps.debut) { gps.debut = Date.now(); gps.cumul = 0; gps.km = 0; gps.points = []; }
+    gps.actif = true; gps.reprise = Date.now(); gpsDernier = null;
+    gpsWatch = navigator.geolocation.watchPosition(gpsPosition, gpsErreur, { enableHighAccuracy: true, maximumAge: 3000, timeout: 30000 });
+    garderEcran(true);
+    clearInterval(gpsTic); gpsTic = setInterval(rendreGps, 1000);
+    rendreGps();
+  }
+  function gpsPause() {
+    gps.cumul = gpsDuree(); gps.actif = false;
+    if (gpsWatch != null) navigator.geolocation.clearWatch(gpsWatch);
+    gpsWatch = null; clearInterval(gpsTic);
+    ecrire(CLE_GPS, gps);
+    if (!chrono.fin && !guide) garderEcran(false);
+    rendreGps();
+  }
+  function gpsTerminer() {
+    if (gps.actif) gpsPause();
+    var minutes = Math.round(gps.cumul / 60000), km = Math.round(gps.km * 100) / 100;
+    if (minutes >= 1) {
+      var d = new Date(gps.debut), iso = isoJour(d) + 'T' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+      etat.marches.push({ date: iso, minutes: minutes, km: km });
+      var msg = 'Marche enregistrée : ' + minutes + ' min, ' + nombre(km, 2) + ' km.';
+      var pos = positionProgramme(iso);
+      if (minutes >= 15 && pos && estActif('marche', pos.sem, pos.j) && !coche(pos.sem, 'marche', pos.j)) { etat.suivi[cle(pos.sem, 'marche', pos.j)] = true; msg += ' Case Marche cochée.'; }
+      modifie(); apresCoche(); rendreBadges();
+      toast(msg);
+    }
+    gps = { actif: false, debut: 0, cumul: 0, reprise: 0, km: 0, points: [] };
+    ecrire(CLE_GPS, null);
+    rendreGps();
+  }
+  function rendreGps() {
+    var ms = gpsDuree(), s = Math.floor(ms / 1000), h = Math.floor(s / 3600);
+    el('gps-duree').textContent = (h ? h + ':' + pad2(Math.floor(s / 60) % 60) : pad2(Math.floor(s / 60))) + ':' + pad2(s % 60);
+    el('gps-km').textContent = nombre(gps.km, 2) + ' km';
+    var allure = gps.km >= 0.05 ? (ms / 60000) / gps.km : 0;
+    el('gps-allure').textContent = allure ? Math.floor(allure) + '′' + pad2(Math.round((allure % 1) * 60)) + '″' : '—';
+    el('gps-etat').textContent = gps.actif ? 'En cours' : gps.debut ? 'En pause' : 'Prêt';
+    el('gps-start').textContent = gps.actif ? 'Pause' : gps.debut ? 'Reprendre' : 'Démarrer';
+    el('gps-stop').hidden = !gps.debut;
+    var pts = gps.points;
+    if (pts.length > 1) {
+      var la = pts.map(function (p) { return p[0]; }), lo = pts.map(function (p) { return p[1]; });
+      var k = Math.cos(la[0] * Math.PI / 180), minX = Math.min.apply(null, lo) * k, maxX = Math.max.apply(null, lo) * k, minY = Math.min.apply(null, la), maxY = Math.max.apply(null, la);
+      var W = 300, H = 120, m = 10, ech = Math.min((W - 2 * m) / Math.max(maxX - minX, 1e-6), (H - 2 * m) / Math.max(maxY - minY, 1e-6));
+      var xy = pts.map(function (p) { return [m + (p[1] * k - minX) * ech, H - m - (p[0] - minY) * ech]; });
+      var der = xy[xy.length - 1];
+      el('gps-trace').innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '"><polyline points="' + xy.map(function (q) { return q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join(' ') + '"/><circle cx="' + der[0].toFixed(1) + '" cy="' + der[1].toFixed(1) + '" r="5"/></svg>';
+    } else el('gps-trace').innerHTML = '';
+    el('gps-liste').innerHTML = etat.marches.slice(-5).reverse().map(function (x) {
+      var a = x.km >= 0.05 ? x.minutes / x.km : 0;
+      return '<li><span>' + dateCourte(jourDe(x.date)) + ' · ' + x.minutes + ' min · ' + nombre(x.km, 2) + ' km</span><span class="muted">' + (a ? Math.floor(a) + '′' + pad2(Math.round((a % 1) * 60)) + '″/km' : '') + '</span></li>';
+    }).join('');
+  }
+  el('gps-start').addEventListener('click', function () { if (gps.actif) gpsPause(); else gpsDemarrer(); });
+  el('gps-stop').addEventListener('click', gpsTerminer);
+
+  // ---------- Badges ----------
+  var CLE_BADGES = 'routine-dos-forme.badges';
+  function listeBadges() {
+    var s = series(), n = { marche: 0, renfo: 0, etirements: 0, perinee: 0 }, total = 0;
+    Object.keys(etat.suivi).forEach(function (k) { n[k.split('-')[1]]++; total++; });
+    var sem80 = false;
+    for (var w = 1; w <= Math.max(12, etat.semaine); w++) if (statsSemaine(w).pct >= 80) { sem80 = true; break; }
+    var jn = Object.keys(etat.journal).map(function (k) { return etat.journal[k]; });
+    var nbDouleur = jn.filter(function (e) { return e.dm != null; }).length;
+    var nbSucre = jn.filter(function (e) { return e.sucre; }).length, nbAlcool = jn.filter(function (e) { return e.alcool; }).length;
+    var kmGps = etat.marches.reduce(function (a, x) { return a + x.km; }, 0);
+    var sp = seriePoids(), perte = sp.length ? departPoids().kg - sp[sp.length - 1].kg : 0;
+    var objPas = phaseDe(etat.semaine).pas, joursPas = sante && sante.jours ? sante.jours.filter(function (x) { return (x.pas || 0) >= objPas; }).length : 0;
+    function b(id, t, d, val, cible) { return { id: id, t: t, d: d, ok: val >= cible, p: Math.min(val, cible) + ' / ' + cible }; }
+    var L = [
+      b('premier', 'Premier pas', 'Une première case cochée', total, 1),
+      b('serie3', 'Sur la lancée', '3 jours complets d\'affilée', s.record, 3),
+      b('serie7', 'Une semaine pile', '7 jours complets d\'affilée', s.record, 7),
+      b('serie14', 'Habitude installée', '14 jours d\'affilée', s.record, 14),
+      b('serie30', 'Inarrêtable', '30 jours d\'affilée', s.record, 30),
+      b('sem80', 'Belle semaine', 'Une semaine à 80 % ou plus', sem80 ? 1 : 0, 1),
+      b('marche10', 'Marcheur', '10 marches', n.marche, 10),
+      b('marche25', 'Bon pied', '25 marches', n.marche, 25),
+      b('marche50', 'Grand marcheur', '50 marches', n.marche, 50),
+      b('renfo10', 'Gainé', '10 séances de renfo', n.renfo, 10),
+      b('renfo24', 'Dos solide', '24 séances de renfo', n.renfo, 24),
+      b('mob30', 'Souple', '30 circuits de mobilité', n.etirements, 30),
+      b('perinee50', 'Discret mais efficace', '50 jours de périnée', n.perinee, 50),
+      b('journal7', 'À l\'écoute de son dos', 'Douleur notée 7 jours', nbDouleur, 7),
+      b('sucre7', 'Sans sucre', '7 jours sans sucre', nbSucre, 7),
+      b('alcool7', 'Sans alcool', '7 jours sans alcool', nbAlcool, 7),
+      b('gps1', 'Première trace', 'Une marche suivie au GPS', etat.marches.length, 1),
+      b('gps20', '20 km au compteur', '20 km suivis au GPS', Math.floor(kmGps), 20),
+      b('poids1', '−1 kg', 'Premier kilo perdu', Math.floor(Math.max(0, perte) * 10) / 10 >= 1 ? 1 : 0, 1),
+      b('poids3', '−3 kg', 'À mi-chemin de l\'objectif', Math.floor(Math.max(0, perte)), 3),
+      b('poids6', 'Objectif poids', '−6 kg atteints', Math.floor(Math.max(0, perte)), 6),
+      b('fin', 'Programme bouclé', 'Semaine 12 réalisée à 50 % ou plus', statsSemaine(12).pct >= 50 ? 1 : 0, 1)
+    ];
+    if (window.AppAndroid) L.push(b('pas7', 'Objectif de pas', 'Objectif de pas atteint 7 jours', joursPas, 7));
+    return L;
+  }
+  var badgesInit = false;
+  function rendreBadges() {
+    var L = listeBadges(), vus = lire(CLE_BADGES) || [], nouveaux = [];
+    el('badges').innerHTML = L.map(function (x) {
+      return '<div class="badge' + (x.ok ? ' ok' : '') + '"><span class="t">' + esc(x.t) + '</span><span class="d">' + esc(x.d) + '</span>' + (x.ok ? '' : '<span class="d">' + x.p + '</span>') + '</div>';
+    }).join('');
+    var obtenus = L.filter(function (x) { return x.ok; });
+    el('badges-compte').textContent = obtenus.length + ' / ' + L.length;
+    obtenus.forEach(function (x) { if (vus.indexOf(x.id) < 0) { nouveaux.push(x); vus.push(x.id); } });
+    if (nouveaux.length) {
+      ecrire(CLE_BADGES, vus);
+      if (badgesInit) toast('Nouveau badge : ' + nouveaux.map(function (x) { return x.t; }).join(', ') + ' !');
+    }
+    badgesInit = true;
+  }
+
+  // ---------- Bilan de la semaine ----------
+  function moyenneDouleur(sem) {
+    var v = [];
+    for (var j = 0; j < 7; j++) { var e = entree(isoJour(dateDuJour(sem, j))); if (e.dm != null) v.push(e.dm); }
+    return v.length ? v.reduce(function (a, x) { return a + x; }, 0) / v.length : null;
+  }
+  function rendreBilanSemaine() {
+    var sem = etat.semaine, st = statsSemaine(sem), lignes = '';
+    ACTIVITES.forEach(function (a) {
+      var f = 0, pr = 0;
+      for (var j = 0; j < 7; j++) if (estActif(a.id, sem, j)) { pr++; if (coche(sem, a.id, j)) f++; }
+      lignes += '<div><span>' + a.nom + '</span><strong>' + f + ' / ' + pr + '</strong></div>';
+    });
+    var dm = moyenneDouleur(sem), dmPrec = sem > 1 ? moyenneDouleur(sem - 1) : null;
+    if (dm != null) lignes += '<div><span>Douleur au réveil (moyenne)</span><strong>' + nombre(dm, 1) + ' / 10' + (dmPrec != null ? ' (' + (dm > dmPrec ? '+' : dm < dmPrec ? '−' : '±') + nombre(Math.abs(dm - dmPrec), 1) + ')' : '') + '</strong></div>';
+    var debutSem = isoJour(dateDuJour(sem, 0)), finSem = isoJour(dateDuJour(sem, 6));
+    var ps = seriePoids().filter(function (p) { return p.date >= debutSem && p.date <= finSem; });
+    if (ps.length > 1) { var dp = ps[ps.length - 1].kg - ps[0].kg; lignes += '<div><span>Poids sur la semaine</span><strong>' + (dp <= 0 ? '−' : '+') + nombre(Math.abs(dp), 1) + ' kg</strong></div>'; }
+    var sucre = 0, alcool = 0;
+    for (var j = 0; j < 7; j++) { var e = entree(isoJour(dateDuJour(sem, j))); if (e.sucre) sucre++; if (e.alcool) alcool++; }
+    if (sucre || alcool) lignes += '<div><span>Jours sans sucre · sans alcool</span><strong>' + sucre + ' · ' + alcool + '</strong></div>';
+    var conseil, att = false;
+    if (dm != null && dmPrec != null && dm >= dmPrec + 1) { conseil = 'Douleur en hausse cette semaine : garde le même niveau la semaine prochaine, sans ajouter de tours.'; att = true; }
+    else if (st.pct >= 80) conseil = 'Très bonne semaine ! Tu peux continuer le programme' + ([3, 6, 9].indexOf(sem) >= 0 ? ' : nouvelle phase la semaine prochaine.' : '.');
+    else if (st.pct >= 50) conseil = 'Bonne base. Vise la mobilité tous les jours : c\'est elle qui fait la série.';
+    else { conseil = 'Semaine difficile, ce n\'est pas grave. Repars simple : la mobilité (6 min) et le périnée chaque jour.'; att = true; }
+    var dimanche = new Date().getDay() === 0;
+    el('bilan-semaine-title').textContent = 'Bilan de la semaine ' + sem + (dimanche ? ' · c\'est dimanche, fais le point' : '');
+    el('bilan-semaine-corps').innerHTML = '<div class="bilan-lignes"><div><span>Cases cochées</span><strong>' + st.faits + ' / ' + st.total + ' · ' + st.pct + ' %</strong></div>' + lignes + '</div>' +
+      '<div class="conseil' + (att ? ' attention' : '') + '">' + esc(conseil) + '</div>';
+  }
+
+  // ---------- Courbe douleur & activité (28 derniers jours) ----------
+  function rendreDouleur() {
+    var fin = aujourdHui(), jours = [];
+    for (var i = 27; i >= 0; i--) jours.push(decaler(fin, -i));
+    var vals = jours.map(function (iso) { return entree(iso).dm; });
+    if (!vals.some(function (v) { return v != null; })) {
+      el('stats-douleur').innerHTML = '<figcaption>Douleur au réveil · 28 jours</figcaption><p class="small muted" style="margin:4px 0 0">Note ta douleur au réveil dans l\'onglet Objectifs pour voir la courbe.</p>';
+      return;
+    }
+    var W = 336, H = 160, g = 22, d = 6, haut = 12, bas = 112, pas = (W - g - d) / 27;
+    var X = function (i) { return g + i * pas; }, Y = function (v) { return bas - (bas - haut) * v / 10; };
+    var svg = '';
+    [0, 5, 10].forEach(function (v) { svg += '<line class="grille" x1="' + g + '" x2="' + (W - d) + '" y1="' + Y(v) + '" y2="' + Y(v) + '"/><text x="' + (g - 4) + '" y="' + (Y(v) + 3) + '" text-anchor="end">' + v + '</text>'; });
+    var seg = [], chemins = '', pts = '';
+    vals.forEach(function (v, i) {
+      if (v != null) { seg.push(X(i).toFixed(1) + ',' + Y(v).toFixed(1)); pts += '<circle class="pt-douleur" cx="' + X(i).toFixed(1) + '" cy="' + Y(v).toFixed(1) + '" r="4"><title>' + dateCourte(jourDe(jours[i])) + ' : ' + v + '/10</title></circle>'; }
+      if ((v == null || i === vals.length - 1) && seg.length) { if (seg.length > 1) chemins += '<polyline class="douleur" points="' + seg.join(' ') + '"/>'; seg = []; }
+      var p = positionProgramme(jours[i]);
+      if (p && (coche(p.sem, 'renfo', p.j) || coche(p.sem, 'marche', p.j))) svg += '<rect class="seance" x="' + (X(i) - 3).toFixed(1) + '" y="' + (bas + 8) + '" width="6" height="6" rx="1"><title>' + dateCourte(jourDe(jours[i])) + ' : séance faite</title></rect>';
+      if (i % 7 === 0 || i === 27) svg += '<text x="' + X(i).toFixed(1) + '" y="' + (bas + 30) + '" text-anchor="middle">' + jourDe(jours[i]).getDate() + '/' + pad2(jourDe(jours[i]).getMonth() + 1) + '</text>';
+    });
+    el('stats-douleur').innerHTML = '<figcaption>Douleur au réveil · 28 jours</figcaption><svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Douleur au réveil sur 0 à 10, et jours avec séance, sur les 28 derniers jours">' + svg + chemins + pts + '</svg>' +
+      '<div class="legende"><span><i style="background:var(--amber)"></i>douleur au réveil (0-10)</span><span><i style="background:var(--primary);height:6px;width:6px"></i>marche ou renfo fait</span></div>';
+  }
+
+  // ---------- Bilan à montrer (enseignant APA, médecin) ----------
+  function contenuBilan() {
+    var d0 = debutProgramme(), auj = new Date(), semMax = Math.max(1, Math.min(MAX_SEM, Math.floor((auj - d0) / 604800000) + 1));
+    var h = '<h1 id="bilan-h1">Bilan · Routine Dos &amp; Forme</h1><p>Programme commencé le ' + d0.toLocaleDateString('fr-FR') + ' · bilan du ' + auj.toLocaleDateString('fr-FR') + ' (semaine ' + semMax + ', ' + esc(phaseDe(semMax).nom) + ').</p>' +
+      '<p>Programme : mobilité quotidienne et renforcement 2 fois par semaine (circuits de l\'enseignant APA), marche 45 min, périnée 2 × 3 min par jour.</p>';
+    h += '<h2>Séances réalisées</h2><table><thead><tr><th>Activité</th><th>Faites</th><th>Prévues</th><th>%</th></tr></thead><tbody>';
+    ACTIVITES.forEach(function (a) {
+      var f = 0, pr = 0;
+      for (var s = 1; s <= semMax; s++) for (var j = 0; j < 7; j++) if (estActif(a.id, s, j)) { pr++; if (coche(s, a.id, j)) f++; }
+      h += '<tr><td>' + a.nom + '</td><td>' + f + '</td><td>' + pr + '</td><td>' + (pr ? Math.round(f * 100 / pr) : 0) + ' %</td></tr>';
+    });
+    h += '</tbody></table>';
+    h += '<h2>Douleur (0 à 10) et régularité par semaine</h2><table><thead><tr><th>Semaine</th><th>Douleur au réveil (moy.)</th><th>Après séance (max)</th><th>Cases cochées</th></tr></thead><tbody>';
+    var alertes = 0;
+    for (var s = 1; s <= semMax; s++) {
+      var ds = [];
+      for (var j = 0; j < 7; j++) { var iso = isoJour(dateDuJour(s, j)), e = entree(iso); if (e.ds != null) ds.push(e.ds); if (alerteDouleur(iso)) alertes++; }
+      var m = moyenneDouleur(s);
+      h += '<tr><td>S' + s + '</td><td>' + (m != null ? nombre(m, 1) : '—') + '</td><td>' + (ds.length ? Math.max.apply(null, ds) : '—') + '</td><td>' + statsSemaine(s).pct + ' %</td></tr>';
+    }
+    h += '</tbody></table><p>Alertes « règle des 24 h » relevées : ' + alertes + '.</p>';
+    var sp = seriePoids(), st = serieTaille(), dep = departPoids();
+    h += '<h2>Poids et tour de taille</h2><p>';
+    h += sp.length ? 'Poids : départ ' + nombre(dep.kg, 1) + ' kg (' + esc(dep.source) + '), actuel ' + nombre(sp[sp.length - 1].kg, 1) + ' kg (' + dateCourte(jourDe(sp[sp.length - 1].date)) + '), soit ' + (sp[sp.length - 1].kg - dep.kg <= 0 ? '−' : '+') + nombre(Math.abs(sp[sp.length - 1].kg - dep.kg), 1) + ' kg. Objectif : −0,5 kg par semaine.' : 'Aucune pesée enregistrée.';
+    h += st.length ? '<br>Tour de taille : ' + nombre(st[0].cm, 1) + ' cm → ' + nombre(st[st.length - 1].cm, 1) + ' cm.' : '';
+    h += '</p><h2>Activité quotidienne</h2><p>';
+    var km = etat.marches.reduce(function (a, x) { return a + x.km; }, 0);
+    h += 'Marches suivies au GPS : ' + etat.marches.length + ' (' + nombre(km, 1) + ' km).';
+    if (sante && sante.jours && sante.jours.length) {
+      var j7 = sante.jours.slice(-7), j30 = sante.jours;
+      var moy = function (l) { return l.reduce(function (a, x) { return a + (x.pas || 0); }, 0) / l.length; };
+      h += '<br>Pas par jour : ' + nombre(moy(j7)) + ' en moyenne sur 7 jours, ' + nombre(moy(j30)) + ' sur 30 jours (objectif de la phase : ' + nombre(phaseDe(semMax).pas) + ').';
+    }
+    var nuits = nuitsSommeil();
+    if (nuits.length) h += '<br>Sommeil : ' + dureeTexte(nuits.slice(-7).reduce(function (a, x) { return a + x.min; }, 0) / Math.min(7, nuits.length)) + ' par nuit en moyenne (7 dernières nuits).';
+    var jn = Object.keys(etat.journal).map(function (k) { return etat.journal[k]; });
+    h += '</p><h2>Hygiène de vie</h2><p>Jours sans sucre : ' + jn.filter(function (e) { return e.sucre; }).length + ' · jours sans alcool : ' + jn.filter(function (e) { return e.alcool; }).length + '.</p>';
+    h += '<p class="small">Document généré par l\'appli Routine Dos &amp; Forme. Données saisies par le patient et lues dans Santé Connect.</p>';
+    return h;
+  }
+  function ouvrirBilan() {
+    el('bilan-page').innerHTML = contenuBilan();
+    el('bilan').hidden = false;
+    document.body.classList.add('bilan-ouvert');
+    el('bilan-imprimer').hidden = !!window.claude && !window.AppAndroid; // pas d'impression dans la page claude.ai
+    el('bilan-fermer').focus();
+  }
+  function fermerBilan() { el('bilan').hidden = true; document.body.classList.remove('bilan-ouvert'); }
+  el('bilan-ouvrir').addEventListener('click', ouvrirBilan);
+  el('bilan-fermer').addEventListener('click', fermerBilan);
+  el('bilan-imprimer').addEventListener('click', function () { if (window.AppAndroid) window.AppAndroid.imprimer(); else window.print(); });
+  el('bilan-enregistrer').addEventListener('click', function () {
+    var doc = '<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bilan Routine Dos &amp; Forme</title>' +
+      '<style>body{font:15px/1.5 system-ui,sans-serif;max-width:760px;margin:24px auto;padding:0 16px;color:#14302f}h1{font-size:1.3rem}h2{font-size:1rem;margin-top:18px}table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid #cfe0df;padding:4px 6px;text-align:right}th:first-child,td:first-child{text-align:left}</style></head><body>' +
+      contenuBilan() + '<script>if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); }); }</script>
+</body></html>';
+    var nom = 'bilan-dos-forme-' + aujourdHui() + '.html';
+    if (window.AppAndroid) { window.AppAndroid.enregistrerFichier(nom, doc); return; }
+    telechargements.then(function (dl) {
+      if (dl) return dl.save({ filename: nom, data: doc }).then(function () { toast('Bilan enregistré.'); }, function () { });
+      var url = URL.createObjectURL(new Blob([doc], { type: 'text/html' })), a = document.createElement('a');
+      a.href = url; a.download = nom; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    });
+  });
+
+  // ---------- Sommeil (Santé Connect) ----------
+  function nuitsSommeil() {
+    var m = {};
+    ((sante && sante.sommeil) || []).forEach(function (n) { var k = n.fin.slice(0, 10); m[k] = (m[k] || 0) + n.minutes; });
+    return Object.keys(m).sort().map(function (k) { return { date: k, min: m[k] }; });
+  }
+  function dureeTexte(min) { min = Math.round(min); return Math.floor(min / 60) + ' h ' + pad2(min % 60); }
+
+  // Fenêtres ouvertes : le bouton Retour d'Android et Échap les ferment dans l'ordre.
+  window.fermerOverlay = function () {
+    if (!el('guide').hidden) { fermerGuide(); return 'ferme'; }
+    if (!el('bilan').hidden) { fermerBilan(); return 'ferme'; }
+    if (!el('zoom').hidden) { fermerZoom(); return 'ferme'; }
+    return '';
+  };
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && (!el('guide').hidden || !el('bilan').hidden)) window.fermerOverlay(); });
+
   // Installation en appli (Chrome Android, version hébergée)
   var invitation = null;
   window.addEventListener('beforeinstallprompt', function (e) {
@@ -1822,6 +2755,10 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
   fiche.mob = mobDuJour(etat.semaine, jourChoisi);
   el('storage-warning').hidden = stockageOk;
   onglet = lire(CLE_ONGLET) || 'marche';
+  if (window.AppAndroid) el('rappels').hidden = false;
+  rendreRoute();
+  rendreRappel();
+  rendreGps();
   toutRendre();
   changerOnglet(onglet, true);
   rendreSante();
@@ -1830,6 +2767,5 @@ window.APA = {"images":{"r1-3":"data:image/webp;base64,UklGRmZDAABXRUJQVlA4WAoAA
   initSync();
 })();
 </script>
-<script>if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); }); }</script>
 </body>
 </html>
